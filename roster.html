@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Roster | CTX Meza Bombers Fastpitch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #00bfff;
+      --color-primary-rgb: 0, 191, 255;
+      --color-secondary: #000000;
+      --color-accent: #ffffff;
+      --color-text: #ffffff;
+      --color-text-dark: #000000;
+      --color-gradient: linear-gradient(135deg, #00bfff, #0080ff);
+      --color-glow: rgba(0, 191, 255, 0.5);
+      --color-card: rgba(15, 23, 42, 0.8);
+      --color-border: rgba(0, 191, 255, 0.2);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+      color: var(--color-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .grid-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0, 191, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 191, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--color-border);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      width: 50px;
+      height: 50px;
+      background: var(--color-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--color-secondary);
+      font-weight: 900;
+    }
+
+    .nav-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-primary);
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--color-primary);
+    }
+
+    .nav-cta {
+      padding: 10px 25px;
+      background: var(--color-gradient);
+      color: var(--color-text-dark);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 25px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .nav-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px var(--color-glow);
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--color-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .page-hero {
+      padding: 160px 20px 80px;
+      text-align: center;
+      position: relative;
+      background:
+        radial-gradient(ellipse at center, rgba(0, 191, 255, 0.1) 0%, transparent 70%),
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--color-glow) 0%, transparent 70%);
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(0, 191, 255, 0.1);
+      border: 1px solid var(--color-border);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .page-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 5rem);
+      letter-spacing: 6px;
+      background: var(--color-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+
+    .page-hero-subtitle {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 80px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 4px;
+      color: var(--color-primary);
+      margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.6);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .team-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 25px 40px;
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 15px;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--color-primary);
+      letter-spacing: 2px;
+    }
+
+    .stat-label {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .player-card {
+      background: var(--color-card);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .player-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(0, 191, 255, 0.2);
+    }
+
+    .player-photo {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 128, 255, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .player-photo-placeholder {
+      font-size: 4rem;
+      opacity: 0.5;
+    }
+
+    .player-number {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 50px;
+      background: var(--color-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-text-dark);
+      font-weight: 900;
+    }
+
+    .player-info {
+      padding: 25px;
+    }
+
+    .player-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+      margin-bottom: 5px;
+    }
+
+    .player-position {
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .player-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .player-stat {
+      text-align: center;
+      padding: 10px;
+      background: rgba(0, 191, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    .player-stat-value {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--color-primary);
+    }
+
+    .player-stat-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .player-link {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.3s;
+    }
+
+    .player-link:hover {
+      color: var(--color-primary);
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.9);
+      border-top: 1px solid var(--color-border);
+      padding: 60px 20px 30px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .footer-logo {
+      width: 50px;
+      height: 50px;
+      background: var(--color-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-secondary);
+    }
+
+    .footer-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--color-primary);
+      letter-spacing: 2px;
+    }
+
+    .footer-desc {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .footer-heading {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+      color: var(--color-primary);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 40px auto 0;
+      padding-top: 30px;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.9rem;
+    }
+
+    .footer-badges {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-badge {
+      padding: 8px 16px;
+      background: rgba(0, 191, 255, 0.1);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--color-primary);
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 20px;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .mobile-nav-toggle {
+        display: block;
+      }
+
+      .nav-cta {
+        display: none;
+      }
+
+      .team-stats {
+        gap: 20px;
+      }
+
+      .stat-item {
+        padding: 20px 30px;
+      }
+
+      .roster-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo">B</div>
+      <span class="nav-title">CTX MEZA BOMBERS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="roster.html" class="active">Roster</a></li>
+      <li><a href="coaching.html">Coaching</a></li>
+      <li><a href="board.html">Board</a></li>
+      <li><a href="finances.html">Finances</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="contact.html" class="nav-cta">Join the Team</a>
+    <button class="mobile-nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+      &#9776;
+    </button>
+  </nav>
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-hero-badge">10U | 2025 Season</div>
+      <h1 class="page-hero-title">TEAM ROSTER</h1>
+      <p class="page-hero-subtitle">Meet the athletes of CTX Meza Bombers Fastpitch. Built for the Fight.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="team-stats">
+        <div class="stat-item">
+          <div class="stat-value">0-0</div>
+          <div class="stat-label">Season Record</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">--</div>
+          <div class="stat-label">Win %</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Players</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Tournaments</div>
+        </div>
+      </div>
+
+      <div class="roster-grid">
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">1</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player A.</h3>
+            <p class="player-position">Pitcher / Shortstop</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">2</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player B.</h3>
+            <p class="player-position">Catcher</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">3</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player C.</h3>
+            <p class="player-position">First Base</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">4</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player D.</h3>
+            <p class="player-position">Second Base</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">5</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player E.</h3>
+            <p class="player-position">Third Base</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">6</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player F.</h3>
+            <p class="player-position">Shortstop</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">7</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player G.</h3>
+            <p class="player-position">Left Field</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">8</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player H.</h3>
+            <p class="player-position">Center Field</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">9</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player I.</h3>
+            <p class="player-position">Right Field</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">10</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player J.</h3>
+            <p class="player-position">Utility</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">11</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player K.</h3>
+            <p class="player-position">Pitcher / Utility</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <div class="player-photo">
+            <span class="player-photo-placeholder">&#9917;</span>
+            <div class="player-number">12</div>
+          </div>
+          <div class="player-info">
+            <h3 class="player-name">Player L.</h3>
+            <p class="player-position">Utility / Outfield</p>
+            <div class="player-stats">
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">AVG</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">RBI</div>
+              </div>
+              <div class="player-stat">
+                <div class="player-stat-value">--</div>
+                <div class="player-stat-label">HR</div>
+              </div>
+            </div>
+            <a href="#" class="player-link">Profile Coming Soon</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-logo">B</div>
+          <span class="footer-title">BOMBERS</span>
+        </div>
+        <p class="footer-desc">
+          CTX Meza Bombers Fastpitch. Built for the Fight. Building champions, one player at a time.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">ORGANIZATION</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="board.html">Board</a></li>
+          <li><a href="coaching.html">Coaching Staff</a></li>
+          <li><a href="bylaws.html">Bylaws</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">RESOURCES</h4>
+        <ul class="footer-links">
+          <li><a href="policies.html">Policies</a></li>
+          <li><a href="docs.html">Documents</a></li>
+          <li><a href="finances.html">Finances</a></li>
+          <li><a href="fundraising.html">Support Us</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="footer-heading">CONNECT</h4>
+        <ul class="footer-links">
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="rallyiq.html">RallyIQ Portal</a></li>
+          <li><a href="roster.html">Team Roster</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 CTX Meza Bombers Fastpitch. All rights reserved.</p>
+      <div class="footer-badges">
+        <span class="footer-badge">10U</span>
+        <span class="footer-badge">USSSA</span>
+        <span class="footer-badge">NSA</span>
+        <span class="footer-badge">NCS</span>
+        <span class="footer-badge">2025 Season</span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
