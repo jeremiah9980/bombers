@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,12 +15,43 @@
       --color-accent: #ffffff;
       --color-text: #ffffff;
       --color-text-dark: #000000;
+      --color-muted: rgba(255, 255, 255, 0.70);
+      --color-muted-strong: rgba(255, 255, 255, 0.84);
       --color-gradient: linear-gradient(135deg, #00bfff, #0080ff);
-      --color-glow: rgba(0, 191, 255, 0.5);
-      --color-card: rgba(15, 23, 42, 0.8);
-      --color-border: rgba(0, 191, 255, 0.2);
+      --color-glow: rgba(0, 191, 255, 0.50);
+      --color-card: rgba(15, 23, 42, 0.82);
+      --color-card-soft: rgba(0, 191, 255, 0.05);
+      --color-border: rgba(0, 191, 255, 0.22);
+      --page-bg: linear-gradient(135deg, #0a0a0a 0%, #101827 48%, #0a0a0a 100%);
+      --nav-bg: rgba(0, 0, 0, 0.90);
+      --footer-bg: rgba(0, 0, 0, 0.92);
+      --section-soft: rgba(0, 191, 255, 0.02);
+      --shadow-card: 0 20px 60px rgba(0, 191, 255, 0.15);
+      --toggle-track: rgba(255, 255, 255, 0.12);
+      --toggle-knob: #00bfff;
       --font-display: 'Bebas Neue', sans-serif;
       --font-body: 'Inter', sans-serif;
+    }
+
+    html[data-theme="light"] {
+      --color-secondary: #ffffff;
+      --color-accent: #07111f;
+      --color-text: #07111f;
+      --color-text-dark: #ffffff;
+      --color-muted: rgba(7, 17, 31, 0.68);
+      --color-muted-strong: rgba(7, 17, 31, 0.84);
+      --color-gradient: linear-gradient(135deg, #00a6ff, #006dff);
+      --color-glow: rgba(0, 132, 255, 0.22);
+      --color-card: rgba(255, 255, 255, 0.92);
+      --color-card-soft: rgba(0, 132, 255, 0.08);
+      --color-border: rgba(0, 109, 255, 0.20);
+      --page-bg: linear-gradient(135deg, #f7fbff 0%, #eaf6ff 48%, #ffffff 100%);
+      --nav-bg: rgba(255, 255, 255, 0.88);
+      --footer-bg: #06111f;
+      --section-soft: rgba(0, 132, 255, 0.07);
+      --shadow-card: 0 20px 60px rgba(7, 17, 31, 0.10);
+      --toggle-track: rgba(0, 109, 255, 0.14);
+      --toggle-knob: #006dff;
     }
 
     * {
@@ -29,43 +60,51 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: var(--font-body);
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+      background: var(--page-bg);
       color: var(--color-text);
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background 0.35s ease, color 0.35s ease;
     }
 
-    /* Grid Background */
     .grid-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       background-image:
-        linear-gradient(rgba(0, 191, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 191, 255, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(var(--color-primary-rgb), 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--color-primary-rgb), 0.04) 1px, transparent 1px);
       background-size: 50px 50px;
       pointer-events: none;
       z-index: 0;
     }
 
-    /* Navigation */
+    html[data-theme="light"] .grid-bg {
+      background-image:
+        linear-gradient(rgba(0, 109, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 109, 255, 0.055) 1px, transparent 1px);
+    }
+
     .navbar {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.9);
+      background: var(--nav-bg);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--color-border);
       padding: 15px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 24px;
+      transition: background 0.35s ease, border-color 0.35s ease;
     }
 
     .nav-brand {
@@ -73,6 +112,7 @@
       align-items: center;
       gap: 15px;
       text-decoration: none;
+      min-width: max-content;
     }
 
     .nav-logo {
@@ -85,8 +125,9 @@
       justify-content: center;
       font-family: var(--font-display);
       font-size: 1.8rem;
-      color: var(--color-secondary);
+      color: var(--color-text-dark);
       font-weight: 900;
+      box-shadow: 0 0 22px var(--color-glow);
     }
 
     .nav-title {
@@ -98,15 +139,16 @@
 
     .nav-links {
       display: flex;
-      gap: 30px;
+      gap: 26px;
       list-style: none;
+      align-items: center;
     }
 
     .nav-links a {
-      color: rgba(255, 255, 255, 0.8);
+      color: var(--color-muted-strong);
       text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
+      font-weight: 600;
+      font-size: 0.88rem;
       transition: color 0.3s;
     }
 
@@ -114,12 +156,66 @@
       color: var(--color-primary);
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: max-content;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--color-border);
+      background: var(--toggle-track);
+      color: var(--color-text);
+      border-radius: 999px;
+      padding: 7px 10px 7px 12px;
+      cursor: pointer;
+      font: 800 0.72rem var(--font-body);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: transform 0.2s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      border-color: var(--color-primary);
+    }
+
+    .theme-toggle-track {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(var(--color-primary-rgb), 0.20);
+      box-shadow: inset 0 0 0 1px var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .theme-toggle-knob {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--toggle-knob);
+      box-shadow: 0 0 16px var(--color-glow);
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    html[data-theme="light"] .theme-toggle-knob {
+      transform: translateX(18px);
+    }
+
     .nav-cta {
       padding: 10px 25px;
       background: var(--color-gradient);
       color: var(--color-text-dark);
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 800;
       border-radius: 25px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
@@ -129,7 +225,6 @@
       box-shadow: 0 5px 20px var(--color-glow);
     }
 
-    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -139,8 +234,8 @@
       padding: 120px 20px 80px;
       position: relative;
       background:
-        radial-gradient(ellipse at center, rgba(0, 191, 255, 0.1) 0%, transparent 70%),
-        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+        radial-gradient(ellipse at center, var(--color-glow) 0%, transparent 70%),
+        var(--page-bg);
     }
 
     .hero::before {
@@ -149,23 +244,23 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
+      width: min(680px, 90vw);
+      height: min(680px, 90vw);
       background: radial-gradient(circle, var(--color-glow) 0%, transparent 70%);
-      opacity: 0.3;
+      opacity: 0.42;
       pointer-events: none;
     }
 
     .hero-content {
       position: relative;
       z-index: 1;
-      max-width: 900px;
+      max-width: 920px;
     }
 
     .hero-badge {
       display: inline-block;
       padding: 8px 20px;
-      background: rgba(0, 191, 255, 0.1);
+      background: var(--color-card-soft);
       border: 1px solid var(--color-border);
       border-radius: 50px;
       font-size: 0.85rem;
@@ -173,6 +268,7 @@
       margin-bottom: 30px;
       letter-spacing: 2px;
       text-transform: uppercase;
+      font-weight: 800;
     }
 
     .hero-title {
@@ -198,8 +294,8 @@
 
     .hero-tagline {
       font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 600px;
+      color: var(--color-muted);
+      max-width: 640px;
       margin: 0 auto 40px;
       line-height: 1.8;
     }
@@ -214,12 +310,15 @@
     .btn {
       padding: 16px 40px;
       font-size: 1rem;
-      font-weight: 700;
+      font-weight: 800;
       border-radius: 50px;
       text-decoration: none;
       transition: all 0.3s ease;
       cursor: pointer;
       border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-primary {
@@ -244,11 +343,14 @@
       color: var(--color-text-dark);
     }
 
-    /* Sections */
     .section {
       padding: 100px 20px;
       position: relative;
       z-index: 1;
+    }
+
+    .section-soft {
+      background: var(--section-soft);
     }
 
     .container {
@@ -271,30 +373,35 @@
 
     .section-subtitle {
       font-size: 1.1rem;
-      color: rgba(255, 255, 255, 0.6);
-      max-width: 600px;
+      color: var(--color-muted);
+      max-width: 660px;
       margin: 0 auto;
+      line-height: 1.7;
     }
 
-    /* Cards */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 30px;
     }
 
-    .card {
+    .card,
+    .value-item,
+    .nav-index-item {
       background: var(--color-card);
       border: 1px solid var(--color-border);
+      transition: all 0.3s ease;
+    }
+
+    .card {
       border-radius: 20px;
       padding: 40px 30px;
-      transition: all 0.3s ease;
     }
 
     .card:hover {
       transform: translateY(-10px);
       border-color: var(--color-primary);
-      box-shadow: 0 20px 60px rgba(0, 191, 255, 0.15);
+      box-shadow: var(--shadow-card);
     }
 
     .card-icon {
@@ -307,6 +414,7 @@
       justify-content: center;
       font-size: 2rem;
       margin-bottom: 25px;
+      color: var(--color-text-dark);
     }
 
     .card-title {
@@ -317,52 +425,14 @@
       margin-bottom: 15px;
     }
 
-    .card-text {
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.7;
+    .card-text,
+    .value-text,
+    .about-text p,
+    .footer-desc {
+      color: var(--color-muted);
+      line-height: 1.75;
     }
 
-    /* Values Section */
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-      margin-top: 40px;
-    }
-
-    .value-item {
-      background: rgba(0, 191, 255, 0.05);
-      border: 1px solid var(--color-border);
-      border-radius: 15px;
-      padding: 30px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .value-item:hover {
-      background: rgba(0, 191, 255, 0.1);
-      border-color: var(--color-primary);
-    }
-
-    .value-icon {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .value-title {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      letter-spacing: 2px;
-      color: var(--color-primary);
-      margin-bottom: 10px;
-    }
-
-    .value-text {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.95rem;
-    }
-
-    /* About Section */
     .about-content {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -379,8 +449,6 @@
     }
 
     .about-text p {
-      color: rgba(255, 255, 255, 0.7);
-      line-height: 1.8;
       margin-bottom: 20px;
     }
 
@@ -406,10 +474,41 @@
       content: 'B';
       font-family: var(--font-display);
       font-size: 10rem;
-      color: var(--color-secondary);
+      color: var(--color-text-dark);
     }
 
-    /* Navigation Index */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+      margin-top: 40px;
+    }
+
+    .value-item {
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .value-item:hover {
+      background: var(--color-card-soft);
+      border-color: var(--color-primary);
+      transform: translateY(-6px);
+    }
+
+    .value-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .value-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--color-primary);
+      margin-bottom: 10px;
+    }
+
     .nav-index {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -422,18 +521,15 @@
       align-items: center;
       gap: 15px;
       padding: 20px 25px;
-      background: var(--color-card);
-      border: 1px solid var(--color-border);
       border-radius: 12px;
       text-decoration: none;
       color: var(--color-text);
-      transition: all 0.3s;
     }
 
     .nav-index-item:hover {
       border-color: var(--color-primary);
       transform: translateX(5px);
-      background: rgba(0, 191, 255, 0.1);
+      background: var(--color-card-soft);
     }
 
     .nav-index-icon {
@@ -441,21 +537,50 @@
     }
 
     .nav-index-label {
-      font-weight: 600;
+      font-weight: 800;
     }
 
-    /* Footer */
+    .join-section {
+      background: var(--color-gradient);
+      text-align: center;
+    }
+
+    .join-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 4px;
+      color: var(--color-text-dark);
+      margin-bottom: 20px;
+    }
+
+    .join-text {
+      color: var(--color-text-dark);
+      opacity: 0.90;
+      max-width: 650px;
+      margin: 0 auto 30px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+
+    .join-button {
+      background: var(--color-text-dark);
+      color: var(--color-primary);
+      padding: 18px 50px;
+    }
+
     .footer {
-      background: rgba(0, 0, 0, 0.9);
+      background: var(--footer-bg);
       border-top: 1px solid var(--color-border);
       padding: 60px 20px 30px;
+      position: relative;
+      z-index: 1;
     }
 
     .footer-content {
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 40px;
     }
 
@@ -476,42 +601,36 @@
       justify-content: center;
       font-family: var(--font-display);
       font-size: 1.5rem;
-      color: var(--color-secondary);
+      color: #ffffff;
+    }
+
+    .footer-title,
+    .footer-heading {
+      font-family: var(--font-display);
+      color: var(--color-primary);
+      letter-spacing: 2px;
     }
 
     .footer-title {
-      font-family: var(--font-display);
       font-size: 1.3rem;
-      color: var(--color-primary);
-      letter-spacing: 2px;
-    }
-
-    .footer-desc {
-      color: rgba(255, 255, 255, 0.6);
-      line-height: 1.7;
-      font-size: 0.95rem;
     }
 
     .footer-heading {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      color: var(--color-primary);
-      margin-bottom: 20px;
+      font-size: 1.1rem;
+      margin-bottom: 16px;
     }
 
     .footer-links {
       list-style: none;
-    }
-
-    .footer-links li {
-      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .footer-links a {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.68);
       text-decoration: none;
-      transition: color 0.3s;
+      transition: color 0.25s;
     }
 
     .footer-links a:hover {
@@ -521,301 +640,257 @@
     .footer-bottom {
       max-width: 1200px;
       margin: 40px auto 0;
-      padding-top: 30px;
-      border-top: 1px solid var(--color-border);
-      text-align: center;
-      color: rgba(255, 255, 255, 0.4);
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      color: rgba(255, 255, 255, 0.56);
       font-size: 0.9rem;
     }
 
     .footer-badges {
       display: flex;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
       flex-wrap: wrap;
+      gap: 8px;
     }
 
     .footer-badge {
-      padding: 8px 16px;
-      background: rgba(0, 191, 255, 0.1);
-      border: 1px solid var(--color-border);
-      border-radius: 20px;
-      font-size: 0.8rem;
+      border: 1px solid rgba(0, 191, 255, 0.40);
       color: var(--color-primary);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
-    /* Mobile Navigation */
-    .mobile-nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--color-primary);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 980px) {
       .navbar {
-        padding: 15px 20px;
+        padding: 14px 22px;
+        flex-wrap: wrap;
       }
 
       .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.95);
-        flex-direction: column;
-        padding: 20px;
-        gap: 15px;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .mobile-nav-toggle {
-        display: block;
-      }
-
-      .nav-cta {
-        display: none;
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
       }
 
       .about-content {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        position: sticky;
+        top: 0;
+      }
+
+      .nav-title {
+        font-size: 1.25rem;
+      }
+
+      .nav-logo {
+        width: 42px;
+        height: 42px;
+      }
+
+      .nav-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .theme-toggle {
+        flex: 1;
+        justify-content: space-between;
+      }
+
+      .nav-cta {
+        flex: 1;
         text-align: center;
       }
 
+      .hero {
+        padding-top: 78px;
+      }
+
+      .hero-title {
+        letter-spacing: 4px;
+      }
+
+      .section {
+        padding: 72px 18px;
+      }
+
       .logo-showcase {
-        width: 200px;
-        height: 200px;
+        width: 230px;
+        height: 230px;
       }
 
       .logo-showcase::before {
-        font-size: 6rem;
+        font-size: 7rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="grid-bg"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
 
-  <!-- Navigation -->
   <nav class="navbar">
-    <a href="#" class="nav-brand">
+    <a href="index.html" class="nav-brand" aria-label="Bombers homepage">
       <div class="nav-logo">B</div>
-      <span class="nav-title">CTX MEZA BOMBERS</span>
+      <span class="nav-title">BOMBERS</span>
     </a>
-    <ul class="nav-links">
+
+    <ul class="nav-links" aria-label="Primary navigation">
+      <li><a href="#home">Home</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#values">Values</a></li>
-      <li><a href="#structure">Structure</a></li>
-      <li><a href="#pages">Pages</a></li>
+      <li><a href="#structure">Values</a></li>
+      <li><a href="#pages">Explore</a></li>
     </ul>
-    <a href="#join" class="nav-cta">Join the Team</a>
-    <button class="mobile-nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
-      &#9776;
-    </button>
+
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" id="themeToggle" aria-label="Switch to light mode" aria-pressed="false">
+        <span id="themeLabel">Light</span>
+        <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-knob"></span></span>
+      </button>
+      <a href="contact.html" class="nav-cta">Join Us</a>
+    </div>
   </nav>
 
-  <!-- Hero Section -->
   <section class="hero" id="home">
     <div class="hero-content">
-      <div class="hero-badge">CTX Meza</div>
+      <div class="hero-badge">CTX Meza &bull; Fastpitch Softball &bull; 2025 Season</div>
       <h1 class="hero-title">BOMBERS</h1>
-      <h2 class="hero-subtitle">FASTPITCH</h2>
-      <p class="hero-tagline">
-        Built for the Fight. A professionally structured, board-governed select softball organization
-        developing elite young athletes while letting coaches actually coach.
-      </p>
+      <div class="hero-subtitle">BUILT FOR THE FIGHT</div>
+      <p class="hero-tagline">Building champions, one player at a time. We develop dedicated athletes through elite coaching, competitive play, and a culture that demands effort, discipline, and teamwork.</p>
       <div class="hero-cta">
-        <a href="#about" class="btn btn-primary">Learn About Us</a>
-        <a href="#join" class="btn btn-outline">Join the Team</a>
+        <a href="contact.html" class="btn btn-primary">Join the Team</a>
+        <a href="#about" class="btn btn-outline">Learn More</a>
       </div>
     </div>
   </section>
 
-  <!-- What We Stand For -->
-  <section class="section" id="values">
+  <section class="section" id="about">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">WHAT WE STAND FOR</h2>
-        <p class="section-subtitle">Building champions, one player at a time</p>
+        <h2 class="section-title">BUILT DIFFERENT</h2>
+        <p class="section-subtitle">A fastpitch organization with a serious identity, clear structure, and a player-development-first mindset.</p>
       </div>
 
       <div class="card-grid">
         <div class="card">
-          <div class="card-icon">&#9917;</div>
-          <h3 class="card-title">ELITE COACHING</h3>
-          <p class="card-text">
-            Our coaching staff focuses solely on player development and field operations.
-            No distractions from administrative duties means better training for every athlete.
-          </p>
+          <div class="card-icon">&#128170;</div>
+          <h3 class="card-title">Compete Hard</h3>
+          <p class="card-text">We play with pressure, energy, confidence, and pride. Every inning is a chance to prove the work.</p>
         </div>
-
         <div class="card">
-          <div class="card-icon">&#128736;</div>
-          <h3 class="card-title">REAL STRUCTURE</h3>
-          <p class="card-text">
-            A formal Board governance model ensures transparency, accountability, and
-            professional operations. Parents know exactly how the organization runs.
-          </p>
+          <div class="card-icon">&#129504;</div>
+          <h3 class="card-title">Develop Smart</h3>
+          <p class="card-text">Practice has purpose. Players learn the game, understand situations, and build habits that translate under pressure.</p>
         </div>
-
         <div class="card">
-          <div class="card-icon">&#127942;</div>
-          <h3 class="card-title">COMPETE BIG</h3>
-          <p class="card-text">
-            Multi-circuit tournament participation across USSSA, NSA, and NCS gives our
-            athletes exposure to top-level competition throughout the season.
-          </p>
+          <div class="card-icon">&#129309;</div>
+          <h3 class="card-title">Move Together</h3>
+          <p class="card-text">Players, coaches, and families operate from one standard: support the team, respect the game, and keep growing.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How We Operate -->
-  <section class="section" style="background: rgba(0, 191, 255, 0.02);" id="about">
+  <section class="section section-soft">
     <div class="container">
       <div class="about-content">
         <div class="about-text">
-          <h3>HOW WE OPERATE</h3>
-          <p>
-            CTX Meza Bombers Fastpitch is built on a simple principle: coaches should coach,
-            and leadership should handle everything else. Our board manages logistics, finances,
-            scheduling, and communications so our coaching staff can focus 100% on developing
-            elite softball players.
-          </p>
-          <p>
-            This professional structure means less burnout for volunteer coaches, more
-            transparency for families, and better outcomes for athletes. Every dollar is
-            tracked, every decision is documented, and every player gets the attention they deserve.
-          </p>
+          <h3>THE BOMBERS WAY</h3>
+          <p>CTX Meza Bombers Fastpitch is built around the idea that competitive softball should develop more than athletic skill. It should build confidence, resilience, communication, and love for the game.</p>
+          <p>The brand is intentionally bold: electric blue, black, stadium-light energy, and a clean modern interface that now supports both dark and light viewing modes.</p>
           <a href="#pages" class="btn btn-primary" style="margin-top: 20px;">Explore Our Organization</a>
         </div>
         <div class="about-visual">
-          <div class="logo-showcase"></div>
+          <div class="logo-showcase" aria-label="Bombers B logo mark"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Our Values -->
   <section class="section" id="structure">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">OUR VALUES</h2>
-        <p class="section-subtitle">The foundation of everything we do</p>
+        <p class="section-subtitle">The foundation of everything we do.</p>
       </div>
 
       <div class="values-grid">
         <div class="value-item">
           <div class="value-icon">&#128170;</div>
           <h4 class="value-title">GRIT</h4>
-          <p class="value-text">We push through challenges and never give up</p>
+          <p class="value-text">We push through challenges and never give up.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">&#129309;</div>
           <h4 class="value-title">TEAMWORK</h4>
-          <p class="value-text">We succeed together or not at all</p>
+          <p class="value-text">We succeed together or not at all.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">&#11088;</div>
           <h4 class="value-title">EXCELLENCE</h4>
-          <p class="value-text">We strive to be our best every day</p>
+          <p class="value-text">We strive to be our best every day.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">&#128293;</div>
           <h4 class="value-title">PASSION</h4>
-          <p class="value-text">We love the game and it shows</p>
+          <p class="value-text">We love the game and it shows.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">&#129504;</div>
           <h4 class="value-title">DISCIPLINE</h4>
-          <p class="value-text">We do the right thing even when it's hard</p>
+          <p class="value-text">We do the right thing even when it is hard.</p>
         </div>
         <div class="value-item">
           <div class="value-icon">&#128588;</div>
           <h4 class="value-title">RESPECT</h4>
-          <p class="value-text">We honor the game, our opponents, and each other</p>
+          <p class="value-text">We honor the game, our opponents, and each other.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Navigation Index -->
-  <section class="section" style="background: rgba(0, 191, 255, 0.02);" id="pages">
+  <section class="section section-soft" id="pages">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">EXPLORE</h2>
-        <p class="section-subtitle">Learn more about our organization</p>
+        <p class="section-subtitle">Learn more about the organization, structure, resources, and RallyIQ platform.</p>
       </div>
 
       <div class="nav-index">
-        <a href="about.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128218;</span>
-          <span class="nav-index-label">About Us</span>
-        </a>
-        <a href="board.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128101;</span>
-          <span class="nav-index-label">Board</span>
-        </a>
-        <a href="coaching.html" class="nav-index-item">
-          <span class="nav-index-icon">&#127942;</span>
-          <span class="nav-index-label">Coaching</span>
-        </a>
-        <a href="bylaws.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128220;</span>
-          <span class="nav-index-label">Bylaws</span>
-        </a>
-        <a href="policies.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128221;</span>
-          <span class="nav-index-label">Policies</span>
-        </a>
-        <a href="documents.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128193;</span>
-          <span class="nav-index-label">Documents</span>
-        </a>
-        <a href="finances.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128176;</span>
-          <span class="nav-index-label">Finances</span>
-        </a>
-        <a href="support.html" class="nav-index-item">
-          <span class="nav-index-icon">&#129309;</span>
-          <span class="nav-index-label">Support Us</span>
-        </a>
-        <a href="rallyiq.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128187;</span>
-          <span class="nav-index-label">RallyIQ</span>
-        </a>
-        <a href="contact.html" class="nav-index-item">
-          <span class="nav-index-icon">&#128231;</span>
-          <span class="nav-index-label">Contact</span>
-        </a>
+        <a href="about.html" class="nav-index-item"><span class="nav-index-icon">&#128218;</span><span class="nav-index-label">About Us</span></a>
+        <a href="board.html" class="nav-index-item"><span class="nav-index-icon">&#128101;</span><span class="nav-index-label">Board</span></a>
+        <a href="coaching.html" class="nav-index-item"><span class="nav-index-icon">&#127942;</span><span class="nav-index-label">Coaching</span></a>
+        <a href="bylaws.html" class="nav-index-item"><span class="nav-index-icon">&#128220;</span><span class="nav-index-label">Bylaws</span></a>
+        <a href="policies.html" class="nav-index-item"><span class="nav-index-icon">&#128221;</span><span class="nav-index-label">Policies</span></a>
+        <a href="docs.html" class="nav-index-item"><span class="nav-index-icon">&#128193;</span><span class="nav-index-label">Documents</span></a>
+        <a href="finances.html" class="nav-index-item"><span class="nav-index-icon">&#128176;</span><span class="nav-index-label">Finances</span></a>
+        <a href="fundraising.html" class="nav-index-item"><span class="nav-index-icon">&#129309;</span><span class="nav-index-label">Support Us</span></a>
+        <a href="rallyiq.html" class="nav-index-item"><span class="nav-index-icon">&#128187;</span><span class="nav-index-label">RallyIQ</span></a>
+        <a href="contact.html" class="nav-index-item"><span class="nav-index-icon">&#128231;</span><span class="nav-index-label">Contact</span></a>
       </div>
     </div>
   </section>
 
-  <!-- Join CTA -->
-  <section class="section" id="join" style="background: var(--color-gradient); text-align: center;">
+  <section class="section join-section" id="join">
     <div class="container">
-      <h2 style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 4px; color: var(--color-text-dark); margin-bottom: 20px;">
-        READY TO JOIN THE FIGHT?
-      </h2>
-      <p style="color: var(--color-text-dark); opacity: 0.9; max-width: 600px; margin: 0 auto 30px; font-size: 1.1rem;">
-        We're always looking for dedicated athletes who want to compete at the highest level.
-        Contact us to learn about tryouts and team openings.
-      </p>
-      <a href="contact.html" class="btn" style="background: var(--color-text-dark); color: var(--color-primary); padding: 18px 50px;">
-        Contact Us Today
-      </a>
+      <h2 class="join-title">READY TO JOIN THE FIGHT?</h2>
+      <p class="join-text">We are always looking for dedicated athletes who want to compete, grow, and be part of a serious team culture.</p>
+      <a href="contact.html" class="btn join-button">Contact Us Today</a>
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="footer">
     <div class="footer-content">
       <div>
@@ -823,9 +898,7 @@
           <div class="footer-logo">B</div>
           <span class="footer-title">BOMBERS</span>
         </div>
-        <p class="footer-desc">
-          CTX Meza Bombers Fastpitch. Built for the Fight. Building champions, one player at a time.
-        </p>
+        <p class="footer-desc">CTX Meza Bombers Fastpitch. Built for the Fight. Building champions, one player at a time.</p>
       </div>
 
       <div>
@@ -842,9 +915,9 @@
         <h4 class="footer-heading">RESOURCES</h4>
         <ul class="footer-links">
           <li><a href="policies.html">Policies</a></li>
-          <li><a href="documents.html">Documents</a></li>
+          <li><a href="docs.html">Documents</a></li>
           <li><a href="finances.html">Finances</a></li>
-          <li><a href="support.html">Support Us</a></li>
+          <li><a href="fundraising.html">Support Us</a></li>
         </ul>
       </div>
 
@@ -870,5 +943,37 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const label = document.getElementById('themeLabel');
+      const storageKey = 'bombers-theme';
+
+      function preferredTheme() {
+        const saved = localStorage.getItem(storageKey);
+        if (saved === 'light' || saved === 'dark') return saved;
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+
+      function applyTheme(theme) {
+        const next = theme === 'light' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem(storageKey, next);
+        const isLight = next === 'light';
+        toggle.setAttribute('aria-pressed', String(isLight));
+        toggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+        label.textContent = isLight ? 'Dark' : 'Light';
+      }
+
+      applyTheme(preferredTheme());
+
+      toggle.addEventListener('click', function () {
+        const current = root.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+        applyTheme(current === 'light' ? 'dark' : 'light');
+      });
+    })();
+  </script>
 </body>
 </html>
