@@ -3,206 +3,153 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bombers CMS Dashboard</title>
-  <link rel="stylesheet" href="./admin.css" />
+  <title>Bombers CMS Command Center</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div id="loginScreen" class="login-screen">
-    <form id="loginForm" class="login-card">
-      <div class="brand-mark">B</div>
-      <h1>Bombers CMS</h1>
-      <p>Manage public website content.</p>
-      <label for="password">Admin password</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="Enter password" />
-      <button type="submit">Log in</button>
-      <small class="muted">Starter password: <code>change-me</code>. Replace this before production.</small>
-      <p id="loginError" class="error" role="alert"></p>
-    </form>
-  </div>
-
-  <div id="app" class="app hidden">
+  <div class="app-shell">
     <aside class="sidebar">
-      <div class="sidebar-brand">
-        <div class="brand-mark small">B</div>
+      <div class="brand">
+        <div class="brand-mark">B</div>
         <div>
           <strong>Bombers CMS</strong>
-          <span>Content Dashboard</span>
+          <span>Repo-aware content manager</span>
         </div>
       </div>
 
-      <nav class="nav">
-        <button class="nav-link active" data-section="overview">Overview</button>
-        <button class="nav-link" data-section="homepage">Homepage</button>
-        <button class="nav-link" data-section="announcements">Announcements</button>
-        <button class="nav-link" data-section="schedule">Schedule</button>
-        <button class="nav-link" data-section="roster">Roster</button>
-        <button class="nav-link" data-section="sponsors">Sponsors</button>
-        <button class="nav-link" data-section="gallery">Gallery</button>
-        <button class="nav-link" data-section="contact">Contact</button>
-        <button class="nav-link" data-section="seo">SEO</button>
-      </nav>
+      <nav id="sectionNav" class="section-nav" aria-label="CMS sections"></nav>
 
-      <div class="sidebar-actions">
-        <button id="saveBrowserBtn" class="secondary">Save in Browser</button>
-        <button id="exportBtn">Export JSON</button>
-        <label class="file-label">
-          Import JSON
-          <input id="importInput" type="file" accept="application/json" />
-        </label>
-        <button id="logoutBtn" class="ghost">Log out</button>
+      <div class="sidebar-card">
+        <strong>Publish path</strong>
+        <code>cms/content/bombers-site.json</code>
+        <p>Export JSON and replace this file in the GitHub repo.</p>
       </div>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div>
-          <h1 id="sectionTitle">Overview</h1>
-          <p id="sectionDescription">Manage the Bombers public website content.</p>
+          <p class="eyebrow">jeremiah9980/bombers</p>
+          <h1>Bombers CMS Command Center</h1>
+          <p class="muted">Manage Home, Social, Team Info, GameChanger, NCS, Roster, and Player Profiles from one JSON-backed dashboard.</p>
         </div>
-        <div class="status-pill">
-          <span id="saveStatus">Loaded</span>
+        <div class="topbar-actions">
+          <button id="loadRepoContentBtn" class="btn ghost">Reload JSON</button>
+          <label class="btn ghost" for="importFile">Import JSON</label>
+          <input id="importFile" type="file" accept="application/json" hidden />
+          <button id="saveLocalBtn" class="btn">Save Draft</button>
+          <button id="exportBtn" class="btn primary">Export for GitHub</button>
         </div>
       </header>
 
-      <section id="overview" class="panel active">
-        <div class="cards">
-          <article class="metric-card">
-            <span>Announcements</span>
-            <strong id="announcementCount">0</strong>
-          </article>
-          <article class="metric-card">
-            <span>Schedule Items</span>
-            <strong id="scheduleCount">0</strong>
-          </article>
-          <article class="metric-card">
-            <span>Roster Members</span>
-            <strong id="rosterCount">0</strong>
-          </article>
-          <article class="metric-card">
-            <span>Gallery Images</span>
-            <strong id="galleryCount">0</strong>
-          </article>
+      <section class="status-grid">
+        <div class="status-card">
+          <span>Content Store</span>
+          <strong id="contentPath">cms/content/bombers-site.json</strong>
         </div>
+        <div class="status-card">
+          <span>Last Updated</span>
+          <strong id="lastUpdated">—</strong>
+        </div>
+        <div class="status-card">
+          <span>Players</span>
+          <strong id="playerCount">0</strong>
+        </div>
+        <div class="status-card">
+          <span>Profiles Live</span>
+          <strong id="profileCount">0</strong>
+        </div>
+      </section>
 
-        <div class="content-grid two">
-          <div class="card">
-            <h2>Publishing Workflow</h2>
-            <ol class="steps">
-              <li>Edit content in this dashboard.</li>
-              <li>Click <strong>Save in Browser</strong> while working.</li>
-              <li>Click <strong>Export JSON</strong> when ready.</li>
-              <li>Replace <code>bombers/content/bombers.json</code> in your site.</li>
-            </ol>
+      <section class="workspace">
+        <div class="editor-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Editing</p>
+              <h2 id="sectionTitle">Home</h2>
+            </div>
+            <button id="validateBtn" class="btn ghost">Validate</button>
           </div>
-          <div class="card">
-            <h2>Preview</h2>
-            <div id="miniPreview" class="mini-preview"></div>
+          <div id="formRoot"></div>
+        </div>
+
+        <aside class="assistant-panel">
+          <div class="panel-heading compact">
+            <div>
+              <p class="eyebrow">AI Content Assistant</p>
+              <h2>Draft Helper</h2>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <section id="homepage" class="panel">
-        <div class="card">
-          <h2>Homepage Hero</h2>
-          <div class="form-grid">
-            <label>Hero Title<input data-path="homepage.heroTitle" /></label>
-            <label>Hero Subtitle<textarea data-path="homepage.heroSubtitle"></textarea></label>
-            <label>CTA Text<input data-path="homepage.ctaText" /></label>
-            <label>CTA URL<input data-path="homepage.ctaUrl" /></label>
-            <label>Hero Image Path<input data-path="homepage.heroImage" /></label>
+          <label>
+            Content type
+            <select id="aiContentType">
+              <option value="announcement">Announcement</option>
+              <option value="gameRecap">Game recap</option>
+              <option value="socialCaption">Social caption</option>
+              <option value="playerBio">Player bio</option>
+              <option value="sponsorThanks">Sponsor thank-you</option>
+              <option value="tournamentPreview">Tournament preview</option>
+            </select>
+          </label>
+
+          <label>
+            Facts / notes
+            <textarea id="aiFacts" rows="8" placeholder="Example: 10U Bombers, Saturday tournament, great defense, team-first attitude, thank families..."></textarea>
+          </label>
+
+          <label>
+            Tone
+            <select id="aiTone">
+              <option value="confident">Confident</option>
+              <option value="family-friendly">Family-friendly</option>
+              <option value="hype">Hype</option>
+              <option value="professional">Professional</option>
+              <option value="short">Short</option>
+            </select>
+          </label>
+
+          <div class="button-row">
+            <button id="aiDraftBtn" class="btn primary">Generate Draft</button>
+            <button id="aiPolishBtn" class="btn ghost">Polish Current Section</button>
           </div>
-        </div>
 
-        <div class="card">
-          <h2>Site Branding</h2>
-          <div class="form-grid">
-            <label>Site Name<input data-path="site.name" /></label>
-            <label>Tagline<input data-path="site.tagline" /></label>
-            <label>Logo Text<input data-path="site.logoText" /></label>
-            <label>Primary Color<input data-path="site.primaryColor" /></label>
-            <label>Accent Color<input data-path="site.accentColor" /></label>
+          <label>
+            Draft output
+            <textarea id="aiOutput" rows="12" placeholder="AI/content helper output appears here."></textarea>
+          </label>
+
+          <button id="copyAiBtn" class="btn ghost">Copy Draft</button>
+
+          <details class="note">
+            <summary>Optional hosted AI endpoint</summary>
+            <p>For real OpenAI-powered drafts, deploy the included Cloudflare Worker and place its URL below. Do not put API keys in GitHub Pages frontend code.</p>
+            <input id="aiEndpoint" placeholder="https://your-worker.example.workers.dev" />
+          </details>
+        </aside>
+      </section>
+
+      <section class="preview-panel">
+        <div class="panel-heading compact">
+          <div>
+            <p class="eyebrow">Preview / Export</p>
+            <h2>Current JSON</h2>
           </div>
+          <button id="copyJsonBtn" class="btn ghost">Copy JSON</button>
         </div>
-      </section>
-
-      <section id="announcements" class="panel">
-        <div class="section-actions">
-          <h2>Announcements</h2>
-          <button data-add="announcements">Add Announcement</button>
-        </div>
-        <div id="announcementsList" class="list-editor"></div>
-      </section>
-
-      <section id="schedule" class="panel">
-        <div class="section-actions">
-          <h2>Schedule</h2>
-          <button data-add="schedule">Add Schedule Item</button>
-        </div>
-        <div id="scheduleList" class="list-editor"></div>
-      </section>
-
-      <section id="roster" class="panel">
-        <div class="section-actions">
-          <h2>Roster</h2>
-          <button data-add="roster">Add Player</button>
-        </div>
-        <div id="rosterList" class="list-editor"></div>
-      </section>
-
-      <section id="sponsors" class="panel">
-        <div class="section-actions">
-          <h2>Sponsors</h2>
-          <button data-add="sponsors">Add Sponsor</button>
-        </div>
-        <div id="sponsorsList" class="list-editor"></div>
-      </section>
-
-      <section id="gallery" class="panel">
-        <div class="section-actions">
-          <h2>Gallery</h2>
-          <button data-add="gallery">Add Image</button>
-        </div>
-        <div id="galleryList" class="list-editor"></div>
-      </section>
-
-      <section id="contact" class="panel">
-        <div class="card">
-          <h2>Contact Information</h2>
-          <div class="form-grid">
-            <label>Email<input data-path="contact.email" /></label>
-            <label>Phone<input data-path="contact.phone" /></label>
-            <label>Address<textarea data-path="contact.address"></textarea></label>
-            <label>Facebook<input data-path="contact.facebook" /></label>
-            <label>Instagram<input data-path="contact.instagram" /></label>
-            <label>X / Twitter<input data-path="contact.x" /></label>
-            <label>YouTube<input data-path="contact.youtube" /></label>
-          </div>
-        </div>
-      </section>
-
-      <section id="seo" class="panel">
-        <div class="card">
-          <h2>SEO Settings</h2>
-          <div class="form-grid">
-            <label>Meta Title<input data-path="seo.metaTitle" /></label>
-            <label>Meta Description<textarea data-path="seo.metaDescription"></textarea></label>
-            <label>Open Graph Image<input data-path="seo.ogImage" /></label>
-          </div>
-        </div>
+        <pre id="jsonPreview"></pre>
       </section>
     </main>
   </div>
 
-  <template id="listItemTemplate">
-    <article class="editor-item">
-      <div class="editor-item-header">
-        <strong class="item-title">Item</strong>
-        <button class="danger" data-remove>Remove</button>
-      </div>
-      <div class="item-fields form-grid"></div>
-    </article>
+  <template id="arrayItemTemplate">
+    <div class="array-item">
+      <div class="array-item-body"></div>
+      <button type="button" class="btn danger small array-remove">Remove</button>
+    </div>
   </template>
 
-  <script src="./admin.js"></script>
+  <script src="./ai-assistant.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
