@@ -1,11 +1,17 @@
 const ROSTER_DATA_PATH = '../assets/data/primetime-players.json';
+const GAMECHANGER_STATS_PATH = '../assets/data/gamechanger-stats.json';
 const PLAYER_ASSET_ROOT = '../assets/players/';
+const ROSTER_STAT_FIELDS = ['AVG', 'OBP', 'OPS', 'RBI'];
 
 function rosterEl(tag, className, text) {
   const node = document.createElement(tag);
   if (className) node.className = className;
   if (text !== undefined) node.textContent = text;
   return node;
+}
+
+function normalizeRosterName(value = '') {
+  return String(value).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 }
 
 function imagePathFor(player) {
@@ -25,11 +31,29 @@ function profilePathFor(player) {
     : `../players/${player.slug}.html`;
 }
 
-function buildPlayerCard(player) {
+function statsForPlayer(player, statsData) {
+  const rows = Array.isArray(statsData?.playerStats) ? statsData.playerStats : [];
+  return rows.find(row => normalizeRosterName(row.player) === normalizeRosterName(player.name)) || null;
+}
+
+function buildRosterStats(playerStats) {
+  if (!playerStats || !playerStats.allStats) return '';
+  const stats = playerStats.allStats;
+  const hasAny = ROSTER_STAT_FIELDS.some(field => stats[field] !== undefined && stats[field] !== null && stats[field] !== '');
+  if (!hasAny) return '';
+  return `<div class="player-stat-label">GameChanger Snapshot</div>
+    <div class="player-stat-grid">
+      ${ROSTER_STAT_FIELDS.map(field => `<div class="player-stat"><strong>${stats[field] ?? '—'}</strong><span>${field}</span></div>`).join('')}
+    </div>`;
+}
+
+function buildPlayerCard(player, statsData) {
   const card = rosterEl('article', `player-card${player.guest ? ' player-card-guest' : ''}`);
   const number = displayNumber(player);
   const jerseyBadge = number === 'TBD' ? 'TBD' : `#${number}`;
   const profilePath = profilePathFor(player);
+  const playerStats = statsForPlayer(player, statsData);
+  const statsHTML = buildRosterStats(playerStats);
   const noteHTML = player.note
     ? `<p class="player-note"><i class="ti ti-star-filled"></i> ${player.note}</p>`
     : '';
@@ -49,7 +73,8 @@ function buildPlayerCard(player) {
       <h3 class="player-name">${player.name}</h3>
       ${player.guest ? '<div class="player-status"><span class="status-dot"></span> Guest Player</div>' : ''}
       <div class="player-divider"></div>
-      ${noteHTML}
+      ${statsHTML || noteHTML}
+      ${statsHTML && noteHTML ? noteHTML : ''}
       ${profileHTML}
     </div>`;
 
@@ -59,12 +84,25 @@ function buildPlayerCard(player) {
   return card;
 }
 
+async function loadStatsData() {
+  try {
+    const response = await fetch(`${GAMECHANGER_STATS_PATH}?v=${Date.now()}`, { cache: 'no-store' });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
 async function loadRoster() {
   const root = document.querySelector('[data-roster-grid]');
   if (!root) return;
-  const response = await fetch(`${ROSTER_DATA_PATH}?v=${Date.now()}`, { cache: 'no-store' });
-  const players = await response.json();
-  root.replaceChildren(...players.map(buildPlayerCard));
+  const [rosterResponse, statsData] = await Promise.all([
+    fetch(`${ROSTER_DATA_PATH}?v=${Date.now()}`, { cache: 'no-store' }),
+    loadStatsData()
+  ]);
+  const players = await rosterResponse.json();
+  root.replaceChildren(...players.map(player => buildPlayerCard(player, statsData)));
   window.dispatchEvent(new CustomEvent('bombers-roster-rendered', { detail: { count: players.length } }));
 }
 
