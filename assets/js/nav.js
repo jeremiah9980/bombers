@@ -31,7 +31,7 @@ const NAV_HTML = `
 function setActiveAnchor() {
   const activeId = isRosterPage || isPlayerPage ? 'roster' : (window.location.hash || '#home').replace('#', '');
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.classList.toggle('active', a.datasetAnchorId === activeId || a.dataset.anchorId === activeId);
+    a.classList.toggle('active', a.dataset.anchorId === activeId);
   });
 }
 
