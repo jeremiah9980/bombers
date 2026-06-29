@@ -19,7 +19,7 @@ const NAV_HTML = `
 <nav>
   <div class="nav-inner">
     <a class="nav-brand" href="${sitePrefix}index.html#home">
-      <span style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0%,#dbe8ff 35%,#075DFF 72%,#02040A 100%);color:#fff;border:2px solid #075DFF;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:900;line-height:1;text-shadow:0 0 10px rgba(7,93,255,.85);box-shadow:0 0 18px rgba(7,93,255,.45);">B</span>
+      <img class="nav-logo" src="${assetPrefix}assets/img/bombers-fastpitch-logo.svg" alt="Bombers Fastpitch logo">
       Bombers <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
