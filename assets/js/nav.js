@@ -15,11 +15,13 @@ const NAV_LINKS = [
   ['Fundraising', `${sitePrefix}index.html#fundraising`, 'fundraising'],
 ];
 
+const logoStyle = 'width:42px;height:42px;border-radius:50%;object-fit:cover;display:block;border:2px solid #075DFF;box-shadow:0 0 18px rgba(7,93,255,.45);background:#02040A;';
+
 const NAV_HTML = `
 <nav>
   <div class="nav-inner">
     <a class="nav-brand" href="${sitePrefix}index.html#home">
-      <img class="nav-logo" src="${assetPrefix}assets/img/bombers-fastpitch-logo.svg" alt="Bombers Fastpitch logo">
+      <img class="nav-logo" style="${logoStyle}" src="${assetPrefix}assets/img/bombers-fastpitch-logo.svg" alt="Bombers Fastpitch logo">
       Bombers <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
