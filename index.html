@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/team-primetime.css">
   <link rel="stylesheet" href="assets/css/ncs-events.css">
+  <link rel="stylesheet" href="assets/css/home-social.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 </head>
 <body class="bombers-page">
@@ -64,8 +65,8 @@
         </div>
         <a href="#social" style="background:var(--white);border:1px solid var(--g4);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:14px 18px;text-decoration:none;display:block;">
           <div style="font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:3px;">Social Media</div>
-          <div style="font-size:14px;font-weight:600;color:var(--ink);">Instagram + Facebook Reels</div>
-          <div style="font-size:12px;color:var(--g3);margin-top:2px;">Follow CTX Bombers Meza highlights, reels, photos, and team updates.</div>
+          <div style="font-size:14px;font-weight:600;color:var(--ink);">Embedded Instagram + Facebook viewers</div>
+          <div style="font-size:12px;color:var(--g3);margin-top:2px;">Follow CTX Bombers Meza highlights, reels, photos, and team updates without leaving the homepage.</div>
         </a>
         <a href="ncs-tracker/" style="background:var(--white);border:1px solid var(--g4);border-left:4px solid #050506;border-radius:0 10px 10px 0;padding:14px 18px;text-decoration:none;display:block;">
           <div style="font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:2px;color:#050506;text-transform:uppercase;margin-bottom:3px;">NCS Dashboard</div>
@@ -99,27 +100,44 @@
   </div>
 
   <!-- SOCIAL MEDIA -->
-  <div class="section" id="social">
-    <div class="section-label">Social Media</div>
-    <h2>Follow CTX Bombers Meza</h2>
-    <div class="section-rule"></div>
-    <p>Quick links for team highlights, reels, photos, player moments, tournament updates, and shareable Bombers content.</p>
-    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch;">
-      <a href="https://www.instagram.com/ctxbombersmeza/" target="_blank" rel="noopener" style="position:relative;overflow:hidden;display:block;text-decoration:none;border-radius:18px;padding:26px;border:1px solid rgba(7,93,255,.38);background:linear-gradient(135deg,#07111F 0%,#0B1728 48%,#001A4D 100%);box-shadow:0 20px 50px -38px #000;color:#fff;">
-        <i class="ti ti-brand-instagram" style="font-size:42px;color:#66A7FF;text-shadow:0 0 24px rgba(7,93,255,.55);"></i>
-        <div style="font-family:var(--display);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#BBD6FF;margin-top:16px;">Instagram</div>
-        <h3 style="margin:6px 0 8px;color:#fff;font-family:var(--display);font-size:28px;">@ctxbombersmeza</h3>
-        <p style="margin:0;color:rgba(255,255,255,.72);font-size:13px;line-height:1.55;">Photos, player moments, tournament graphics, team culture, and Bombers highlight posts.</p>
-        <span style="display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--display);font-weight:900;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#fff;">Open Instagram <i class="ti ti-arrow-up-right"></i></span>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61583868568607&amp;sk=reels_tab" target="_blank" rel="noopener" style="position:relative;overflow:hidden;display:block;text-decoration:none;border-radius:18px;padding:26px;border:1px solid rgba(7,93,255,.38);background:linear-gradient(135deg,#07111F 0%,#0B1728 48%,#001A4D 100%);box-shadow:0 20px 50px -38px #000;color:#fff;">
-        <i class="ti ti-brand-facebook" style="font-size:42px;color:#66A7FF;text-shadow:0 0 24px rgba(7,93,255,.55);"></i>
-        <div style="font-family:var(--display);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#BBD6FF;margin-top:16px;">Facebook Reels</div>
-        <h3 style="margin:6px 0 8px;color:#fff;font-family:var(--display);font-size:28px;">Bombers Reels</h3>
-        <p style="margin:0;color:rgba(255,255,255,.72);font-size:13px;line-height:1.55;">Reels, short-form highlights, game clips, and shareable team updates for families and supporters.</p>
-        <span style="display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:var(--display);font-weight:900;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#fff;">Open Facebook <i class="ti ti-arrow-up-right"></i></span>
-      </a>
+  <div class="section social-section" id="social">
+    <div class="social-section-head">
+      <div>
+        <div class="social-kicker">Follow the journey</div>
+        <h2 class="social-title">CTX Bombers Meza Social</h2>
+      </div>
+      <p class="social-copy">See reels, tournament weekends, player moments, team culture, practice clips, and shareable Bombers updates directly from the homepage.</p>
     </div>
+    <div class="social-grid">
+      <article class="social-panel">
+        <div class="social-panel-head">
+          <div class="social-platform">
+            <div class="social-platform-icon ig"><i class="ti ti-brand-instagram"></i></div>
+            <div class="social-platform-text"><strong>CTX Bombers Meza</strong><span>@ctxbombersmeza</span></div>
+          </div>
+          <a class="social-external" href="https://www.instagram.com/ctxbombersmeza/" target="_blank" rel="noopener noreferrer"><span>Open Instagram</span><i class="ti ti-external-link"></i></a>
+        </div>
+        <div class="social-embed-wrap" id="bombers-instagram-embed"></div>
+      </article>
+      <article class="social-panel">
+        <div class="social-panel-head">
+          <div class="social-platform">
+            <div class="social-platform-icon fb"><i class="ti ti-brand-facebook"></i></div>
+            <div class="social-platform-text"><strong>Bombers Facebook Reels</strong><span>Highlights, clips, and team updates</span></div>
+          </div>
+          <a class="social-external" href="https://www.facebook.com/profile.php?id=61583868568607&amp;sk=reels_tab" target="_blank" rel="noopener noreferrer"><span>Open Facebook</span><i class="ti ti-external-link"></i></a>
+        </div>
+        <div class="social-embed-wrap" id="bombers-facebook-embed"></div>
+      </article>
+    </div>
+    <section class="social-cta">
+      <h2>Follow the Team.<br><span>Catch the Reels.</span></h2>
+      <p>Stay connected to the athletes, coaches, families, and moments building CTX Bombers Meza.</p>
+      <div class="social-hero-actions">
+        <a class="social-btn social-btn-instagram" href="https://www.instagram.com/ctxbombersmeza/" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-instagram"></i> Instagram</a>
+        <a class="social-btn social-btn-primary" href="https://www.facebook.com/profile.php?id=61583868568607&amp;sk=reels_tab" target="_blank" rel="noopener noreferrer"><i class="ti ti-brand-facebook"></i> Facebook Reels</a>
+      </div>
+    </section>
   </div>
 
   <!-- NCS DASHBOARD -->
@@ -187,6 +205,7 @@
 </footer>
 <script src="assets/js/gamechanger-schedule.js"></script>
 <script src="assets/js/gamechanger-stats.js"></script>
+<script src="assets/js/home-social.js"></script>
 <script src="assets/js/ncs-events.js"></script>
 </body>
 </html>
