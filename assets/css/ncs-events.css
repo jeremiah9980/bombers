@@ -1,63 +1,64 @@
-.primetime-page .ncs-panel {
+:is(.primetime-page,.bombers-page) .ncs-panel {
   margin-top: 18px;
   padding: 22px;
   border-radius: 16px;
-  border: 1px solid rgba(212,160,23,.35);
-  background: linear-gradient(180deg,#171717,#0d0d0d);
-  color: #fff8e6;
+  border: 1px solid rgba(215,25,32,.38);
+  background: linear-gradient(180deg,#17171a,#050506);
+  color: #f7f7f9;
   box-shadow: 0 20px 50px -38px #000;
 }
 
-.primetime-page .ncs-panel-head {
+:is(.primetime-page,.bombers-page) .ncs-panel-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 18px;
   margin-bottom: 18px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(212,160,23,.24);
+  border-bottom: 1px solid rgba(215,25,32,.28);
 }
 
-.primetime-page .ncs-panel-head h3 {
+:is(.primetime-page,.bombers-page) .ncs-panel-head h3 {
   margin: 4px 0 6px;
   color: #fff;
   font-family: var(--display);
   font-size: 26px;
 }
 
-.primetime-page .ncs-panel-head p {
+:is(.primetime-page,.bombers-page) .ncs-panel-head p {
   margin: 0;
-  color: rgba(255,248,230,.72);
+  color: rgba(255,255,255,.72);
   font-size: 13px;
 }
 
-.primetime-page .ncs-metrics {
+:is(.primetime-page,.bombers-page) .ncs-metrics {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 22px;
 }
 
-.primetime-page .ncs-metric-card {
+:is(.primetime-page,.bombers-page) .ncs-metric-card {
   padding: 13px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(212,160,23,.25);
-  background: rgba(255,248,230,.055);
+  border: 1px solid rgba(215,25,32,.26);
+  background: rgba(255,255,255,.055);
   text-align: center;
 }
 
-.primetime-page .ncs-metric-card strong {
+:is(.primetime-page,.bombers-page) .ncs-metric-card strong {
   display: block;
-  color: var(--yellow);
+  color: #fff;
   font-family: var(--display);
   font-size: 20px;
   font-weight: 950;
+  text-shadow: 0 0 18px rgba(215,25,32,.35);
 }
 
-.primetime-page .ncs-metric-card span {
+:is(.primetime-page,.bombers-page) .ncs-metric-card span {
   display: block;
   margin-top: 6px;
-  color: rgba(255,248,230,.65);
+  color: rgba(255,255,255,.65);
   font-family: var(--display);
   font-size: 8px;
   font-weight: 900;
@@ -65,22 +66,22 @@
   text-transform: uppercase;
 }
 
-.primetime-page .ncs-event-columns {
+:is(.primetime-page,.bombers-page) .ncs-event-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px;
 }
 
-.primetime-page .ncs-event-column h4 {
+:is(.primetime-page,.bombers-page) .ncs-event-column h4 {
   margin: 0 0 12px;
-  color: var(--yellow);
+  color: #fff;
   font-family: var(--display);
   font-size: 13px;
   letter-spacing: 1.3px;
   text-transform: uppercase;
 }
 
-.primetime-page .ncs-event-list {
+:is(.primetime-page,.bombers-page) .ncs-event-list {
   display: grid;
   gap: 10px;
   max-height: 520px;
@@ -88,20 +89,20 @@
   padding-right: 4px;
 }
 
-.primetime-page .ncs-event-card {
+:is(.primetime-page,.bombers-page) .ncs-event-card {
   display: grid;
   grid-template-columns: 104px 1fr 58px;
   gap: 12px;
   align-items: center;
   padding: 12px;
-  border: 1px solid rgba(212,160,23,.22);
+  border: 1px solid rgba(215,25,32,.24);
   border-radius: 12px;
-  background: rgba(255,248,230,.045);
+  background: rgba(255,255,255,.045);
 }
 
-.primetime-page .ncs-event-date {
-  color: #111;
-  background: #fff8e6;
+:is(.primetime-page,.bombers-page) .ncs-event-date {
+  color: #fff;
+  background: linear-gradient(145deg,#d71920,#650812);
   border-radius: 9px;
   padding: 9px 8px;
   text-align: center;
@@ -112,7 +113,7 @@
   text-transform: uppercase;
 }
 
-.primetime-page .ncs-event-main h4 {
+:is(.primetime-page,.bombers-page) .ncs-event-main h4 {
   margin: 0 0 4px;
   color: #fff;
   font-family: var(--display);
@@ -121,45 +122,45 @@
   text-transform: none;
 }
 
-.primetime-page .ncs-event-main p {
+:is(.primetime-page,.bombers-page) .ncs-event-main p {
   margin: 0;
-  color: rgba(255,248,230,.64);
+  color: rgba(255,255,255,.64);
   font-size: 12px;
 }
 
-.primetime-page .ncs-event-place {
+:is(.primetime-page,.bombers-page) .ncs-event-place {
   display: grid;
   place-items: center;
-  color: var(--yellow);
+  color: #fff;
   font-family: var(--display);
   font-size: 20px;
   font-weight: 950;
 }
 
-.primetime-page .ncs-event-place span {
+:is(.primetime-page,.bombers-page) .ncs-event-place span {
   display: block;
   margin-top: 4px;
-  color: rgba(255,248,230,.58);
+  color: rgba(255,255,255,.58);
   font-size: 8px;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-.primetime-page .ncs-empty {
+:is(.primetime-page,.bombers-page) .ncs-empty {
   padding: 18px;
-  border: 1px dashed rgba(212,160,23,.35);
+  border: 1px dashed rgba(215,25,32,.35);
   border-radius: 12px;
-  color: rgba(255,248,230,.72);
-  background: rgba(255,248,230,.035);
+  color: rgba(255,255,255,.72);
+  background: rgba(255,255,255,.035);
 }
 
 @media(max-width: 980px) {
-  .primetime-page .ncs-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .primetime-page .ncs-event-columns { grid-template-columns: 1fr; }
+  :is(.primetime-page,.bombers-page) .ncs-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :is(.primetime-page,.bombers-page) .ncs-event-columns { grid-template-columns: 1fr; }
 }
 
 @media(max-width: 560px) {
-  .primetime-page .ncs-panel-head { flex-direction: column; }
-  .primetime-page .ncs-event-card { grid-template-columns: 1fr; }
-  .primetime-page .ncs-event-place { place-items: start; }
+  :is(.primetime-page,.bombers-page) .ncs-panel-head { flex-direction: column; }
+  :is(.primetime-page,.bombers-page) .ncs-event-card { grid-template-columns: 1fr; }
+  :is(.primetime-page,.bombers-page) .ncs-event-place { place-items: start; }
 }
