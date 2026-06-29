@@ -246,11 +246,11 @@ body.bombers-page {
   width:96px;
   height:5px;
   background:linear-gradient(90deg,#ffffff,var(--bombers-blue));
-  z-index:2;
+  z-index:4;
 }
 :is(.primetime-page,.bombers-page) .player-photo {
   position:relative;
-  height:176px;
+  height:212px;
   overflow:hidden;
   background:
     linear-gradient(135deg,rgba(7,93,255,.34),transparent 34%),
@@ -263,8 +263,24 @@ body.bombers-page {
   content:"";
   position:absolute;
   inset:0;
-  background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,.76));
+  z-index:2;
+  background:linear-gradient(180deg,transparent 58%,rgba(0,0,0,.78));
+  pointer-events:none;
 }
+:is(.primetime-page,.bombers-page) .player-photo-img {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center center;
+  display:block;
+  z-index:1;
+  background:#02040A;
+}
+:is(.primetime-page,.bombers-page) .player-photo.has-player-image i,
+:is(.primetime-page,.bombers-page) .player-photo.has-player-image .player-watermark,
+:is(.primetime-page,.bombers-page) .player-photo.has-player-image .player-photo-coming { display:none; }
 :is(.primetime-page,.bombers-page) .player-photo i {
   position:relative;
   z-index:1;
@@ -282,6 +298,18 @@ body.bombers-page {
   font-size:78px;
   font-weight:900;
   line-height:1;
+}
+:is(.primetime-page,.bombers-page) .player-photo-coming {
+  position:absolute;
+  z-index:3;
+  bottom:16px;
+  right:16px;
+  color:rgba(255,255,255,.78);
+  font-family:var(--display);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
 }
 :is(.primetime-page,.bombers-page) .jersey-badge {
   position:absolute;
@@ -409,5 +437,5 @@ body.bombers-page {
 @media(max-width:620px){
   :is(.primetime-page,.bombers-page) #roster{padding:30px 16px;}
   :is(.primetime-page,.bombers-page) .player-card-grid{grid-template-columns:1fr;}
-  :is(.primetime-page,.bombers-page) .player-photo{height:164px;}
+  :is(.primetime-page,.bombers-page) .player-photo{height:196px;}
 }
