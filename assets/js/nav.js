@@ -19,7 +19,7 @@ const NAV_HTML = `
 <nav>
   <div class="nav-inner">
     <a class="nav-brand" href="${sitePrefix}index.html#home">
-      <span style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#fff;color:#050506;border:2px solid #D71920;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:900;line-height:1;">B</span>
+      <span style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0%,#dbe8ff 35%,#075DFF 72%,#02040A 100%);color:#fff;border:2px solid #075DFF;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:900;line-height:1;text-shadow:0 0 10px rgba(7,93,255,.85);box-shadow:0 0 18px rgba(7,93,255,.45);">B</span>
       Bombers <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
@@ -31,7 +31,7 @@ const NAV_HTML = `
 function setActiveAnchor() {
   const activeId = isRosterPage || isPlayerPage ? 'roster' : (window.location.hash || '#home').replace('#', '');
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.classList.toggle('active', a.dataset.anchorId === activeId);
+    a.classList.toggle('active', a.datasetAnchorId === activeId || a.dataset.anchorId === activeId);
   });
 }
 
