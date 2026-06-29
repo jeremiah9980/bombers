@@ -19,8 +19,8 @@ const NAV_HTML = `
 <nav>
   <div class="nav-inner">
     <a class="nav-brand" href="${sitePrefix}index.html#home">
-      <span style="font-size:22px;line-height:1;color:#D4A017;">★</span>
-      Primetime <span>FASTPITCH</span>
+      <span style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#fff;color:#050506;border:2px solid #D71920;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:900;line-height:1;">B</span>
+      Bombers <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
       ${NAV_LINKS.map(([label, href, id]) => `<a href="${href}" data-anchor-id="${id}">${label}</a>`).join('')}
@@ -36,11 +36,11 @@ function setActiveAnchor() {
 }
 
 function loadPlayerImageData() {
-  if (document.querySelector('script[data-primetime-player-images]')) return;
+  if (document.querySelector('script[data-bombers-player-images]')) return;
   const script = document.createElement('script');
   script.src = `${assetPrefix}assets/js/player-image-data.js`;
   script.defer = true;
-  script.dataset.primetimePlayerImages = 'true';
+  script.dataset.bombersPlayerImages = 'true';
   document.head.appendChild(script);
 }
 
