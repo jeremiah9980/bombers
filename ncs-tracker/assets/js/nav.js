@@ -2,8 +2,8 @@ const NAV_HTML = `
 <nav>
   <div class="nav-inner">
     <a class="nav-brand" href="index.html">
-      <span style="font-size:22px;line-height:1;color:#D4A017;">★</span>
-      Primetime <span>FASTPITCH</span>
+      <span style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#fff;color:#050506;border:2px solid #D71920;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-weight:900;line-height:1;">B</span>
+      Bombers <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
       <a href="index.html">Home</a>
