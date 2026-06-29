@@ -1,373 +1,239 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'>
-  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-  <title>Team Roster | CTX Meza Bombers Fastpitch</title>
-  <link rel='preconnect' href='https://fonts.googleapis.com'>
-  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
-  <link href='https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap' rel='stylesheet'>
-  <style>
-    :root {
-      --color-primary: #00bfff;
-      --color-secondary: #000000;
-      --color-text: #ffffff;
-      --color-text-dark: #000000;
-      --color-gradient: linear-gradient(135deg, #00bfff, #0080ff);
-      --color-glow: rgba(0, 191, 255, 0.5);
-      --color-card: rgba(15, 23, 42, 0.82);
-      --color-border: rgba(0, 191, 255, 0.22);
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'Inter', sans-serif;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--font-body);
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-      color: var(--color-text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .grid-bg {
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0, 191, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 191, 255, 0.03) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(0, 0, 0, 0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--color-border);
-      padding: 15px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .nav-brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-    .nav-logo, .footer-logo {
-      width: 50px;
-      height: 50px;
-      background: var(--color-gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1.8rem;
-      color: var(--color-secondary);
-      font-weight: 900;
-    }
-
-    .nav-title, .footer-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      color: var(--color-primary);
-      letter-spacing: 2px;
-    }
-
-    .nav-links { display: flex; gap: 30px; list-style: none; }
-    .nav-links a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.9rem;
-      transition: color 0.3s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--color-primary); }
-
-    .nav-cta {
-      padding: 10px 25px;
-      background: var(--color-gradient);
-      color: var(--color-text-dark);
-      text-decoration: none;
-      font-weight: 700;
-      border-radius: 25px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .nav-cta:hover { transform: scale(1.05); box-shadow: 0 5px 20px var(--color-glow); }
-
-    .mobile-nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--color-primary);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .page-hero {
-      padding: 160px 20px 80px;
-      text-align: center;
-      position: relative;
-      background:
-        radial-gradient(ellipse at center, rgba(0, 191, 255, 0.1) 0%, transparent 70%),
-        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
-    }
-    .page-hero::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, var(--color-glow) 0%, transparent 70%);
-      opacity: 0.2;
-      pointer-events: none;
-    }
-    .page-hero-content { position: relative; z-index: 1; }
-    .page-hero-badge {
-      display: inline-block;
-      padding: 8px 20px;
-      background: rgba(0, 191, 255, 0.1);
-      border: 1px solid var(--color-border);
-      border-radius: 50px;
-      font-size: 0.85rem;
-      color: var(--color-primary);
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .page-hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 5rem);
-      letter-spacing: 6px;
-      background: var(--color-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 15px;
-    }
-    .page-hero-subtitle {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.7);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .section { padding: 80px 20px; position: relative; z-index: 1; }
-    .container { max-width: 1200px; margin: 0 auto; }
-
-    .team-stats {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
-    .stat-item {
-      text-align: center;
-      padding: 25px 40px;
-      background: var(--color-card);
-      border: 1px solid var(--color-border);
-      border-radius: 15px;
-    }
-    .stat-value { font-family: var(--font-display); font-size: 2.5rem; color: var(--color-primary); letter-spacing: 2px; }
-    .stat-label { color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; margin-top: 5px; }
-
-    .roster-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-    .player-card {
-      background: var(--color-card);
-      border: 1px solid var(--color-border);
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.3s;
-    }
-    .player-card:hover {
-      border-color: var(--color-primary);
-      transform: translateY(-10px);
-      box-shadow: 0 20px 50px rgba(0, 191, 255, 0.2);
-    }
-    .player-photo {
-      width: 100%;
-      height: 200px;
-      background: linear-gradient(135deg, rgba(0, 191, 255, 0.2), rgba(0, 128, 255, 0.2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .player-photo.has-image { height: 280px; }
-    .player-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .player-photo::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%);
-      pointer-events: none;
-    }
-    .player-photo-placeholder { font-size: 4rem; opacity: 0.5; }
-    .player-number {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 56px;
-      height: 56px;
-      background: var(--color-gradient);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      color: var(--color-text-dark);
-      font-weight: 900;
-      z-index: 2;
-      box-shadow: 0 0 22px var(--color-glow);
-    }
-    .player-info { padding: 25px; }
-    .player-name {
-      font-family: var(--font-display);
-      font-size: 1.65rem;
-      letter-spacing: 2px;
-      color: var(--color-primary);
-      margin-bottom: 5px;
-    }
-    .player-position { color: rgba(255, 255, 255, 0.8); font-weight: 600; margin-bottom: 15px; }
-    .player-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-    .player-stat { text-align: center; padding: 10px; background: rgba(0, 191, 255, 0.1); border-radius: 8px; }
-    .player-stat-value { font-family: var(--font-display); font-size: 1.2rem; color: var(--color-primary); }
-    .player-stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
-    .player-link { display: block; text-align: center; padding: 10px; color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
-    .player-link:hover { color: var(--color-primary); }
-
-    .footer { background: rgba(0, 0, 0, 0.9); border-top: 1px solid var(--color-border); padding: 60px 20px 30px; }
-    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-    .footer-brand { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-    .footer-title { font-size: 1.3rem; }
-    .footer-desc { color: rgba(255,255,255,0.6); line-height: 1.7; font-size: 0.95rem; }
-    .footer-heading { font-family: var(--font-display); font-size: 1.2rem; letter-spacing: 2px; color: var(--color-primary); margin-bottom: 20px; }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.3s; }
-    .footer-links a:hover { color: var(--color-primary); }
-    .footer-bottom { max-width: 1200px; margin: 40px auto 0; padding-top: 30px; border-top: 1px solid var(--color-border); text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; }
-    .footer-badges { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
-    .footer-badge { padding: 8px 16px; background: rgba(0,191,255,0.1); border: 1px solid var(--color-border); border-radius: 20px; font-size: 0.8rem; color: var(--color-primary); }
-
-    @media (max-width: 768px) {
-      .navbar { padding: 15px 20px; }
-      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: rgba(0,0,0,0.95); flex-direction: column; padding: 20px; gap: 15px; }
-      .nav-links.active { display: flex; }
-      .mobile-nav-toggle { display: block; }
-      .nav-cta { display: none; }
-      .team-stats { gap: 20px; }
-      .stat-item { padding: 20px 30px; }
-      .roster-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roster — Primetime Fastpitch</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/team-primetime.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  /* ===== ROSTER GRID CARDS ===== */
+  .roster-counter{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid var(--blue-m);background:var(--blue-l);border-radius:999px;font-family:var(--display);text-transform:uppercase;letter-spacing:1.5px;font-size:12px;color:var(--blue2);}
+  .roster-counter .rc-live{color:var(--blue);font-weight:800;}
+  .roster-counter .rc-sep{opacity:.4;}
+  .roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;margin-top:24px;}
+  .roster-card{background:#fff;border:1px solid var(--g4);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:.25s;}
+  .roster-card.is-live{border-color:var(--yellow);box-shadow:0 6px 0 var(--yellow2),0 8px 30px rgba(212,160,23,.2);}
+  .rc-photo{position:relative;aspect-ratio:3/4;background:linear-gradient(165deg,#0a0a0a 0%,#1a1a0a 45%,#050500 100%);overflow:hidden;}
+  .rc-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .rc-photo-fallback{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.18);}
+  .rc-photo-fallback i{font-size:78px;}
+  .rc-photo-fallback .rc-spot-label{font-family:var(--display);font-weight:900;font-size:42px;letter-spacing:1px;color:rgba(212,160,23,.20);margin-top:6px;text-shadow:0 0 30px rgba(212,160,23,.3);}
+  .rc-photo img+.rc-photo-fallback{display:none;}
+  .roster-card .no-photo .rc-photo-fallback{display:flex;}
+  .rc-num{position:absolute;bottom:12px;left:12px;background:#0a0a0a;color:#fff;font-family:var(--display);font-weight:900;font-size:18px;padding:6px 14px;border-radius:8px;border:2px solid var(--yellow);letter-spacing:1px;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+  .rc-body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1;}
+  .rc-name{font-family:var(--display);font-weight:900;font-size:22px;text-transform:uppercase;letter-spacing:0.5px;line-height:1;color:var(--blue);}
+  .rc-name .rc-ln{color:var(--yellow2);}
+  .rc-pos{font-family:var(--display);text-transform:uppercase;letter-spacing:2px;font-size:11px;color:var(--g3);margin-top:8px;}
+  .rc-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;}
+  .rc-stat{background:var(--blue-l);border-radius:8px;padding:10px 10px 8px;}
+  .rc-stat-val{font-family:var(--display);font-size:18px;font-weight:900;color:var(--blue);line-height:1;letter-spacing:-.5px;}
+  .rc-stat-lbl{font-family:var(--display);text-transform:uppercase;letter-spacing:1.5px;font-size:9px;color:var(--g3);margin-top:4px;}
+  .rc-tag-pill{margin-top:14px;background:transparent;border:1px solid var(--g4);border-radius:999px;text-align:center;font-family:var(--display);text-transform:uppercase;letter-spacing:2px;font-size:10px;padding:8px 10px;color:var(--g3);}
+  .is-live .rc-tag-pill{background:var(--yellow-l);border-color:var(--yellow);color:var(--blue2);}
+  .rc-cta{margin-top:12px;display:flex;align-items:center;justify-content:space-between;background:var(--g5);color:var(--g3);font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:12px;padding:14px 16px;border-radius:8px;text-decoration:none;pointer-events:none;}
+  .rc-cta::after{content:"→";opacity:.4;}
+  .is-live .rc-cta{background:var(--yellow);color:#080808;pointer-events:auto;}
+  .is-live .rc-cta::after{opacity:1;}
+  .is-live .rc-cta:hover{background:var(--yellow2);color:#fff;}
+</style>
 </head>
-<body>
-  <div class='grid-bg'></div>
+<body class="primetime-page">
+<script src="assets/js/nav.js"></script>
 
-  <nav class='navbar'>
-    <a href='index.html' class='nav-brand'>
-      <div class='nav-logo'>B</div>
-      <span class='nav-title'>CTX MEZA BOMBERS</span>
-    </a>
-    <ul class='nav-links'>
-      <li><a href='about.html'>About</a></li>
-      <li><a href='roster.html' class='active'>Roster</a></li>
-      <li><a href='coaching.html'>Coaching</a></li>
-      <li><a href='board.html'>Board</a></li>
-      <li><a href='finances.html'>Finances</a></li>
-      <li><a href='contact.html'>Contact</a></li>
-    </ul>
-    <a href='contact.html' class='nav-cta'>Join the Team</a>
-    <button class='mobile-nav-toggle' onclick="document.querySelector('.nav-links').classList.toggle('active')">&#9776;</button>
-  </nav>
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">Primetime Fastpitch &bull; 2025</div>
+    <h1>Roster</h1>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">Hard work. Dedication. Discipline. Passion. This is the team.</p>
+  </div>
+</section>
 
-  <section class='page-hero'>
-    <div class='page-hero-content'>
-      <div class='page-hero-badge'>10U | 2025 Season</div>
-      <h1 class='page-hero-title'>TEAM ROSTER</h1>
-      <p class='page-hero-subtitle'>Meet the athletes of CTX Meza Bombers Fastpitch. Built for the Fight.</p>
-    </div>
-  </section>
+<div class="gold-strip">
+  <p>2025 Season &nbsp;&bull;&nbsp; Where Champions Are Made &nbsp;&bull;&nbsp; Texas Select Fastpitch</p>
+</div>
 
-  <section class='section'>
-    <div class='container'>
-      <div class='team-stats'>
-        <div class='stat-item'><div class='stat-value'>0-0</div><div class='stat-label'>Season Record</div></div>
-        <div class='stat-item'><div class='stat-value'>--</div><div class='stat-label'>Win %</div></div>
-        <div class='stat-item'><div class='stat-value'>12</div><div class='stat-label'>Players</div></div>
-        <div class='stat-item'><div class='stat-value'>0</div><div class='stat-label'>Tournaments</div></div>
-      </div>
+<div class="page">
 
-      <div class='roster-grid'>
-        <div class='player-card'>
-          <div class='player-photo has-image'>
-            <img src='data:image/jpeg;base64,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' alt='Shaeleigh Fox roster photo' loading='lazy'>
-            <div class='player-number'>45</div>
+  <div class="section">
+    <span class="roster-counter">
+      <i class="ti ti-users"></i>
+      <span class="rc-live" id="liveCount">0 Profiles Live</span>
+      <span class="rc-sep">—</span>
+      <span>Roster</span>
+    </span>
+    <h2 style="margin-top:18px;">Players</h2>
+    <div class="section-rule"></div>
+    <p style="margin-bottom:8px;">Roster shown in GameChanger format (first name + last initial + jersey). Individual profile pages activate per player once a written parent media release is on file and the photo + profile are dropped in.</p>
+    <div class="roster-grid">
+
+      <div class="roster-card" data-slug="player-1">
+        <div class="rc-photo">
+          <img src="assets/players/player-1.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#1</div>
           </div>
-          <div class='player-info'>
-            <h3 class='player-name'>Shaeleigh Fox</h3>
-            <p class='player-position'>Bombers Athlete</p>
-            <div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div>
-            <a href='#' class='player-link'>Profile Coming Soon</a>
-          </div>
+          <div class="rc-num">#1</div>
         </div>
-
-        <div class='player-card'>
-          <div class='player-photo has-image'>
-            <img src='data:image/jpeg;base64,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' alt='Birdie Meza roster photo' loading='lazy'>
-            <div class='player-number'>16</div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">1.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
           </div>
-          <div class='player-info'>
-            <h3 class='player-name'>Birdie Meza</h3>
-            <p class='player-position'>Bombers Athlete</p>
-            <div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div>
-            <a href='#' class='player-link'>Profile Coming Soon</a>
-          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
         </div>
-
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>3</div></div><div class='player-info'><h3 class='player-name'>Player C.</h3><p class='player-position'>First Base</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>4</div></div><div class='player-info'><h3 class='player-name'>Player D.</h3><p class='player-position'>Second Base</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>5</div></div><div class='player-info'><h3 class='player-name'>Player E.</h3><p class='player-position'>Third Base</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>6</div></div><div class='player-info'><h3 class='player-name'>Player F.</h3><p class='player-position'>Shortstop</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>7</div></div><div class='player-info'><h3 class='player-name'>Player G.</h3><p class='player-position'>Left Field</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>8</div></div><div class='player-info'><h3 class='player-name'>Player H.</h3><p class='player-position'>Center Field</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>9</div></div><div class='player-info'><h3 class='player-name'>Player I.</h3><p class='player-position'>Right Field</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>10</div></div><div class='player-info'><h3 class='player-name'>Player J.</h3><p class='player-position'>Utility</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>11</div></div><div class='player-info'><h3 class='player-name'>Player K.</h3><p class='player-position'>Pitcher / Utility</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
-        <div class='player-card'><div class='player-photo'><span class='player-photo-placeholder'>&#9917;</span><div class='player-number'>12</div></div><div class='player-info'><h3 class='player-name'>Player L.</h3><p class='player-position'>Utility / Outfield</p><div class='player-stats'><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>AVG</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>RBI</div></div><div class='player-stat'><div class='player-stat-value'>--</div><div class='player-stat-label'>HR</div></div></div><a href='#' class='player-link'>Profile Coming Soon</a></div></div>
       </div>
-    </div>
-  </section>
 
-  <footer class='footer'>
-    <div class='footer-content'>
-      <div>
-        <div class='footer-brand'><div class='footer-logo'>B</div><span class='footer-title'>BOMBERS</span></div>
-        <p class='footer-desc'>CTX Meza Bombers Fastpitch. Built for the Fight. Building champions, one player at a time.</p>
+      <div class="roster-card" data-slug="player-2">
+        <div class="rc-photo">
+          <img src="assets/players/player-2.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#2</div>
+          </div>
+          <div class="rc-num">#2</div>
+        </div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">2.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
+        </div>
       </div>
-      <div><h4 class='footer-heading'>ORGANIZATION</h4><ul class='footer-links'><li><a href='about.html'>About Us</a></li><li><a href='board.html'>Board</a></li><li><a href='coaching.html'>Coaching Staff</a></li><li><a href='bylaws.html'>Bylaws</a></li></ul></div>
-      <div><h4 class='footer-heading'>RESOURCES</h4><ul class='footer-links'><li><a href='policies.html'>Policies</a></li><li><a href='docs.html'>Documents</a></li><li><a href='finances.html'>Finances</a></li><li><a href='fundraising.html'>Support Us</a></li></ul></div>
-      <div><h4 class='footer-heading'>CONNECT</h4><ul class='footer-links'><li><a href='contact.html'>Contact</a></li><li><a href='rallyiq.html'>RallyIQ Portal</a></li><li><a href='roster.html'>Team Roster</a></li></ul></div>
+
+      <div class="roster-card" data-slug="player-3">
+        <div class="rc-photo">
+          <img src="assets/players/player-3.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#3</div>
+          </div>
+          <div class="rc-num">#3</div>
+        </div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">3.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
+        </div>
+      </div>
+
+      <div class="roster-card" data-slug="player-4">
+        <div class="rc-photo">
+          <img src="assets/players/player-4.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#4</div>
+          </div>
+          <div class="rc-num">#4</div>
+        </div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">4.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
+        </div>
+      </div>
+
+      <div class="roster-card" data-slug="player-5">
+        <div class="rc-photo">
+          <img src="assets/players/player-5.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#5</div>
+          </div>
+          <div class="rc-num">#5</div>
+        </div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">5.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
+        </div>
+      </div>
+
+      <div class="roster-card" data-slug="player-6">
+        <div class="rc-photo">
+          <img src="assets/players/player-6.jpg" alt="" onerror="this.style.display='none';this.parentElement.classList.add('no-photo');">
+          <div class="rc-photo-fallback">
+            <i class="ti ti-user"></i>
+            <div class="rc-spot-label">#6</div>
+          </div>
+          <div class="rc-num">#6</div>
+        </div>
+        <div class="rc-body">
+          <div class="rc-name"><span class="rc-fn">Player</span> <span class="rc-ln">6.</span></div>
+          <div class="rc-pos">Position TBD</div>
+          <div class="rc-stats">
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+            <div class="rc-stat"><div class="rc-stat-val">—</div><div class="rc-stat-lbl">Stat</div></div>
+          </div>
+          <div class="rc-tag-pill">Profile Coming Soon</div>
+          <a class="rc-cta" href="player-profile.html"><i class="ti ti-clock"></i> Coming Soon</a>
+        </div>
+      </div>
+
     </div>
-    <div class='footer-bottom'>
-      <p>&copy; 2025 CTX Meza Bombers Fastpitch. All rights reserved.</p>
-      <div class='footer-badges'><span class='footer-badge'>10U</span><span class='footer-badge'>USSSA</span><span class='footer-badge'>NSA</span><span class='footer-badge'>NCS</span><span class='footer-badge'>2025 Season</span></div>
+  </div>
+
+  <div class="section">
+    <div class="callout">
+      <p><strong>Want to join the roster?</strong> Tryouts are open. Contact the Co-Directors to learn about roster openings and the tryout schedule. <a href="contact.html">Reach out here.</a></p>
     </div>
-  </footer>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-brand">★ Primetime Fastpitch</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a><a href="about.html">About</a><a href="coaching.html">Coaching</a><a href="contact.html">Contact</a>
+  </div>
+  <p>Texas &bull; Select Fastpitch Softball &bull; 2025</p>
+</footer>
+
+<script>
+  const LIVE_PROFILES = [];
+  document.querySelectorAll('.roster-card').forEach(card => {
+    const slug = card.dataset.slug;
+    if (LIVE_PROFILES.includes(slug)) card.classList.add('is-live');
+  });
+  document.getElementById('liveCount').textContent = LIVE_PROFILES.length + ' Profile' + (LIVE_PROFILES.length !== 1 ? 's' : '') + ' Live';
+</script>
 </body>
 </html>
