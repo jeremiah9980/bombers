@@ -1,9 +1,10 @@
 const PROFILE_DATA_PATH = '../assets/data/primetime-players.json';
 const GAMECHANGER_STATS_PATH = '../assets/data/gamechanger-stats.json';
+const PLAYER_ASSET_ROOT = '../assets/players/';
 
 const CURRENT_FIELDS = ['AVG', 'OBP', 'SLG', 'OPS', 'H', 'RBI', 'SB', 'SB%'];
 const ALL_TIME_FIELDS = ['GP', 'PA', 'AB', 'AVG', 'OBP', 'SLG', 'OPS', 'H', '1B', '2B', '3B', 'HR', 'RBI', 'R', 'BB', 'SO', 'HBP', 'SB', 'SB%', 'CS'];
-const CLIP_TAGS = ['GAME CLIP', 'HITS', 'DEFENSE', 'TOP PLAY', 'GAME CLIP', 'HOME RUN', 'TOP PLAY', 'GAME CLIP'];
+const CLIP_TAGS = ['HOME RUN', 'GAME CLIP', 'GAME CLIP', 'TOP PLAY', 'GAME CLIP', 'HOME RUN', 'TOP PLAY', 'GAME CLIP'];
 
 function profileEl(tag, className, text) {
   const node = document.createElement(tag);
@@ -18,6 +19,11 @@ function normalizeName(value = '') {
 
 function placeholderStats(fields) {
   return Object.fromEntries(fields.map(field => [field, '—']));
+}
+
+function displayNumber(player) {
+  const number = String(player.number || '').trim();
+  return number || 'TBD';
 }
 
 function statsForPlayer(player, statsData) {
@@ -35,26 +41,39 @@ function statsForPlayer(player, statsData) {
 
 function buildHero(player) {
   const hero = profileEl('section', 'profile-hero');
-  const number = String(player.number || '').trim() || 'TBD';
+  const number = displayNumber(player);
+  const role = player.guest ? 'Guest Athlete' : 'Rostered Athlete';
   hero.innerHTML = `
-    <div class="profile-kicker">Bombers Fastpitch · CTX Meza · 2026</div>
+    <div class="profile-kicker">CTX Bombers Meza · Georgetown, Texas · 2026</div>
     <h1><span>#${number}</span> ${player.name}</h1>
-    <div class="profile-role">Rostered Athlete</div>
+    <div class="profile-role">${role}</div>
     <div class="profile-hero-rule"></div>
-    <p>${player.name}'s player profile, current GameChanger snapshot, character profile, all-time stats, and highlight clip wall are shown below.</p>`;
+    <p>${player.name}'s player profile, current in-season GameChanger snapshot, character profile, all-time stats, and highlight wall are shown below.</p>`;
   return hero;
 }
 
 function buildPhotoCard(player) {
   const card = profileEl('article', 'profile-photo-card');
-  const number = String(player.number || '').trim() || 'TBD';
+  const number = displayNumber(player);
+  const image = player.image ? `${PLAYER_ASSET_ROOT}${player.image}` : '';
   card.innerHTML = `
     <span class="profile-photo-watermark">${number}</span>
+    ${image ? `<img class="profile-player-image" src="${image}" alt="${player.name} Bombers player graphic" loading="eager">` : ''}
     <i class="ti ti-user-circle"></i>
     <div class="profile-photo-label">
-      <strong>Player Image Coming Soon</strong>
+      <strong>${image ? 'Player Graphic' : 'Player Image Coming Soon'}</strong>
       <span class="profile-number-badge">#${number}</span>
     </div>`;
+  const img = card.querySelector('.profile-player-image');
+  if (img) {
+    img.addEventListener('load', () => card.classList.add('has-player-image'));
+    img.addEventListener('error', () => {
+      img.remove();
+      card.classList.remove('has-player-image');
+      const label = card.querySelector('.profile-photo-label strong');
+      if (label) label.textContent = 'Player Image Coming Soon';
+    });
+  }
   return card;
 }
 
@@ -64,8 +83,8 @@ function buildSnapshotPanel(player, gcStats) {
   const label = profileEl('div', 'profile-section-label', `${player.name.split(' ')[0]} · Player Profile`);
   const h2 = profileEl('h2', '', 'GameChanger Snapshot');
   const p = profileEl('p', '', gcStats
-    ? `Synced from GameChanger${gcStats.syncedAt ? ` · ${new Date(gcStats.syncedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}` : ''}.`
-    : 'Current in-season GameChanger snapshot fields are ready for verified stats once available.');
+    ? `Verified source: 2026 Spring CTX Bombers - Meza GameChanger snapshot${gcStats.syncedAt ? ` · ${new Date(gcStats.syncedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}` : ''}.`
+    : 'Verified GameChanger stat slots are connected and ready to populate once public stat rows or exported team stats are available.');
   const grid = profileEl('div', 'stat-grid');
 
   CURRENT_FIELDS.forEach(field => {
@@ -81,18 +100,24 @@ function buildSnapshotPanel(player, gcStats) {
 function buildCharacter(player) {
   const block = profileEl('section', 'profile-block character-block');
   const inner = profileEl('div', 'profile-block-inner');
+  const quote = player.quote || `${player.name} brings effort, coachability, and team-first energy to CTX Bombers Meza.`;
+  const bullets = Array.isArray(player.characterBullets) && player.characterBullets.length
+    ? player.characterBullets
+    : [
+      'Coachability: responds to feedback and keeps improving.',
+      'Team-first habits: supports teammates and keeps the group moving.',
+      'Development focus: continues building consistency and confidence.'
+    ];
   inner.innerHTML = `
     <div class="profile-section-label">Coach Notes</div>
     <h2>Character Profile</h2>
     <div class="character-grid">
       <div class="coach-quote">
-        “Coach notes and character profile details for ${player.name} will be added here.”
+        “${quote}”
         <span>Bombers coach profile</span>
       </div>
       <ul class="character-list">
-        <li>Coachability notes and player strengths can be added here.</li>
-        <li>Team-first habits, effort, and practice notes can be tracked here.</li>
-        <li>Development focus and leadership moments can be captured here.</li>
+        ${bullets.map(item => `<li>${item}</li>`).join('')}
       </ul>
     </div>`;
   block.appendChild(inner);
@@ -147,7 +172,7 @@ function buildFilmRoom(player) {
       <div>
         <span class="clip-tag">${tag}</span>
         <h3>Game Clip ${String(index + 1).padStart(2, '0')}</h3>
-        <p>${player.name} · Bombers Fastpitch</p>
+        <p>${player.name} · CTX Bombers Meza</p>
       </div>`;
     clips.appendChild(clip);
   });
@@ -162,7 +187,14 @@ function buildFooter() {
   footer.innerHTML = `
     <h2>Bombers Fastpitch</h2>
     <div class="profile-hero-rule"></div>
-    <p>Central Texas · Select Fastpitch Softball · 2026</p>`;
+    <div class="profile-footer-links">
+      <a href="../index.html#home">Home</a>
+      <a href="../roster/">Roster</a>
+      <a href="../index.html#schedule">Schedule</a>
+      <a href="../index.html#stats">GC Stats</a>
+      <a href="../ncs-tracker/">NCS Dashboard</a>
+    </div>
+    <p>Georgetown, Texas · 10U Select Fastpitch Softball · 2026</p>`;
   return footer;
 }
 
@@ -188,9 +220,9 @@ async function renderPlayerProfile() {
   const players = await playersResponse.json();
   const player = players.find(item => item.slug === slug) || players[0];
   const gcStats = statsForPlayer(player, statsData);
-  const number = String(player.number || '').trim() || 'TBD';
+  const number = displayNumber(player);
 
-  document.title = `#${number} ${player.name} · Bombers Fastpitch`;
+  document.title = `#${number} ${player.name} · CTX Bombers Meza`;
 
   const shell = profileEl('div', 'player-profile-shell');
   shell.appendChild(buildHero(player));
