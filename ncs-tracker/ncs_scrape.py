@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
-NCS -> schedule.json scraper for the Primetime 10U dashboard.
+NCS -> schedule.json scraper for the CTX Bombers Meza dashboard.
 
-Pulls the NCS event Schedule & Results page, parses the game table (scores
-included once games go final), and writes data/schedule.json in the exact
-shape the dashboard reads. Sunday bracket games appear on the same schedule
-page once posted, so they get picked up automatically (day == "Sun").
+Pulls the NCS event Schedule & Results page, parses the game table once NCS
+posts the schedule/results, and writes data/schedule.json in the shape the
+NCS tracker can consume.
 
 Run locally:   python scraper/ncs_scrape.py
 In CI:         invoked by .github/workflows/ncs-update.yml every few minutes.
@@ -19,23 +18,27 @@ import requests
 from bs4 import BeautifulSoup
 
 # ----------------------------------------------------------------------
+TEAM_ID = "79552"
 EVENT = {
-    "name": "NCS 10U STATE",
-    "dates": "Jun 13–14, 2026",
-    "location": "Taylor, TX",
-    "venue": "Taylor Athletic Complex",
-    "director": "Maggie Stoecklein",
-    "gateFees": "Weekend $20 · Daily $15 · 12U Free (cash only)",
-    "division": "10U OPEN",
-    "url": "https://playncs.com/FASTPITCH/Events/Schedule/12472/2026-central-texas-ncs-10u-summer-state-triple-points-open-6gg?division=10U%20OPEN",
+    "name": "3P Sports Dingers for Dads *6GG*",
+    "dates": "Jun 20-21, 2026",
+    "location": "Taylor/Lorena, TX",
+    "venue": "Taylor/Lorena",
+    "director": "Jennifer Anderson",
+    "gateFees": "See NCS event page",
+    "division": "10U",
+    "teamId": "26-79552",
+    "teamName": "CTX Bombers Meza",
+    "teamUrl": "https://www.playncs.com/fastpitch/Teams/Details/79552/ctx-bombers-meza",
+    "url": "https://playncs.com/FASTPITCH/Events/Schedule/12287/3p-sports-dingers-for-dads-6gg?division=10U",
 }
 SCHEDULE_URL = EVENT["url"]
 
 # Map the weekday tokens NCS prints to real calendar dates for this event.
-DATE_MAP = {"Sat": "2026-06-13", "Sun": "2026-06-14", "Fri": "2026-06-12"}
+DATE_MAP = {"Fri": "2026-06-19", "Sat": "2026-06-20", "Sun": "2026-06-21"}
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "data" / "schedule.json"
-HEADERS = {"User-Agent": "Mozilla/5.0 (PrimetimeDashboard NCS sync)"}
+HEADERS = {"User-Agent": "Mozilla/5.0 (CTXBombersMeza NCS sync)"}
 
 TIME_RE = re.compile(r"(\d{1,2}:\d{2}\s*[AP]M)", re.I)
 GAME_RE = re.compile(r"Game\s+(\d+)", re.I)
@@ -45,8 +48,8 @@ INT_RE  = re.compile(r"\b(\d{1,2})\b")
 
 
 def to_iso(day, time_str):
-    """'Sat' + '9:00 AM' -> '2026-06-13T09:00:00' (24h local)."""
-    date = DATE_MAP.get(day, "2026-06-13")
+    """'Sat' + '9:00 AM' -> '2026-06-20T09:00:00' (24h local)."""
+    date = DATE_MAP.get(day, "2026-06-20")
     try:
         t = datetime.datetime.strptime(time_str.upper().replace(" ", ""), "%I:%M%p")
         return f"{date}T{t.strftime('%H:%M:%S')}"
@@ -82,7 +85,7 @@ def scrape():
             table = t
             break
     if table is None:
-        raise RuntimeError("Schedule table not found — NCS markup may have changed.")
+        raise RuntimeError("Schedule table not found — NCS may not have posted the schedule yet, or markup changed.")
 
     games, teams = [], {}
     for tr in table.find_all("tr"):
@@ -94,7 +97,8 @@ def scrape():
         if not gm_m:
             continue
         game_no = int(gm_m.group(1))
-        day = (DAY_RE.search(meta) or [None, "Sat"])[1] if DAY_RE.search(meta) else "Sat"
+        day_match = DAY_RE.search(meta)
+        day = day_match.group(1) if day_match else "Sat"
         time_m = TIME_RE.search(tds[1].get_text(" ", strip=True)) or TIME_RE.search(meta)
         time_str = time_m.group(1).upper().replace(" ", " ") if time_m else "TBD"
 
@@ -123,6 +127,7 @@ def scrape():
     payload = {
         "event": EVENT,
         "updated": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "myTeamId": TEAM_ID,
         "teams": [{"id": tid, "name": nm,
                    "guest": nm.strip().endswith("*")} for tid, nm in teams.items()],
         "games": games,
