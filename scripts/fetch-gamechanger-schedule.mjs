@@ -1,8 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const SOURCE_URL = process.env.GC_SCHEDULE_URL || 'https://web.gc.com/teams/560mQaj2c3aH/2026-spring-primetime-10u/schedule';
+const SOURCE_URL = process.env.GC_SCHEDULE_URL || 'https://web.gc.com/teams/Zn3gbz7yVqgq/2026-spring-ctx-bombers---meza/schedule';
 const OUTPUT_PATH = process.env.GC_SCHEDULE_OUTPUT || 'assets/data/gamechanger-schedule.json';
+const TEAM_NAME = '2026 Spring CTX Bombers - Meza';
 
 function stripTags(value = '') {
   return String(value)
@@ -86,7 +87,7 @@ function normalizeGame(raw) {
 
   return {
     startTime: startTime || null,
-    title: title || opponent || 'Primetime Game',
+    title: title || opponent || 'CTX Bombers Meza Game',
     opponent: opponent || null,
     location: location || null,
     status
@@ -129,7 +130,7 @@ function dedupeGames(games) {
 async function main() {
   const response = await fetch(SOURCE_URL, {
     headers: {
-      'user-agent': 'PrimetimeScheduleSync/1.0',
+      'user-agent': 'CTXBombersMezaScheduleSync/1.0',
       'accept': 'text/html,application/json'
     }
   });
@@ -149,7 +150,7 @@ async function main() {
   const output = {
     source: 'GameChanger',
     sourceUrl: SOURCE_URL,
-    team: '2026 Spring Primetime 10U',
+    team: TEAM_NAME,
     updatedAt: new Date().toISOString(),
     games: dedupeGames(games).slice(0, 60)
   };
@@ -165,7 +166,7 @@ main().catch(async error => {
   const fallback = {
     source: 'GameChanger',
     sourceUrl: SOURCE_URL,
-    team: '2026 Spring Primetime 10U',
+    team: TEAM_NAME,
     updatedAt: new Date().toISOString(),
     games: []
   };
