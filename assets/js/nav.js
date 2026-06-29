@@ -1,30 +1,52 @@
+const currentPath = window.location.pathname;
+const currentFile = currentPath.split('/').pop() || 'index.html';
+const isHomePage = currentFile === 'index.html' || currentFile === '';
+const isPlayerPage = currentPath.includes('/players/');
+const isRosterPage = currentPath.includes('/roster/');
+const sitePrefix = isPlayerPage || isRosterPage ? '../' : '';
+const assetPrefix = sitePrefix;
+
+const NAV_LINKS = [
+  ['HOME', `${sitePrefix}index.html#home`, 'home'],
+  ['Team Info', `${sitePrefix}index.html#team-info`, 'team-info'],
+  ['Roster', `${sitePrefix}roster/`, 'roster'],
+  ['Schedule', `${sitePrefix}index.html#schedule`, 'schedule'],
+  ['NCS Dashboard', `${sitePrefix}ncs-tracker/`, 'ncs-dashboard'],
+  ['Fundraising', `${sitePrefix}index.html#fundraising`, 'fundraising'],
+];
+
 const NAV_HTML = `
 <nav>
   <div class="nav-inner">
-    <a class="nav-brand" href="index.html">
+    <a class="nav-brand" href="${sitePrefix}index.html#home">
       <span style="font-size:22px;line-height:1;color:#D4A017;">★</span>
       Primetime <span>FASTPITCH</span>
     </a>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="board.html">Board</a>
-      <a href="coaching.html">Coaching</a>
-      <a href="roster.html">Roster</a>
-      <a href="bylaws.html">Bylaws</a>
-      <a href="finances.html">Finances</a>
-      <a href="policies.html">Policies</a>
-      <a href="docs.html">Documents</a>
-      <a href="fundraising.html">Support Us</a>
-      <a href="contact.html">Contact</a>
+      ${NAV_LINKS.map(([label, href, id]) => `<a href="${href}" data-anchor-id="${id}">${label}</a>`).join('')}
     </div>
   </div>
 </nav>`;
 
+function setActiveAnchor() {
+  const activeId = isRosterPage || isPlayerPage ? 'roster' : (window.location.hash || '#home').replace('#', '');
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.anchorId === activeId);
+  });
+}
+
+function loadPlayerImageData() {
+  if (document.querySelector('script[data-primetime-player-images]')) return;
+  const script = document.createElement('script');
+  script.src = `${assetPrefix}assets/js/player-image-data.js`;
+  script.defer = true;
+  script.dataset.primetimePlayerImages = 'true';
+  document.head.appendChild(script);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.body.insertAdjacentHTML('afterbegin', NAV_HTML);
-  const path = window.location.pathname;
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    if (path.endsWith(a.getAttribute('href').split('/').pop())) a.classList.add('active');
-  });
+  setActiveAnchor();
+  loadPlayerImageData();
+  window.addEventListener('hashchange', setActiveAnchor);
 });
