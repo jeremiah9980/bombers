@@ -2,10 +2,10 @@
   margin-top: 18px;
   padding: 22px;
   border-radius: 16px;
-  border: 1px solid rgba(215,25,32,.38);
-  background: linear-gradient(180deg,#17171a,#050506);
-  color: #f7f7f9;
-  box-shadow: 0 20px 50px -38px #000;
+  border: 1px solid rgba(7,93,255,.42);
+  background: linear-gradient(180deg,#081426,#02040A);
+  color: #f5f7fb;
+  box-shadow: 0 20px 50px -38px #000, 0 0 34px rgba(7,93,255,.14);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-panel-head {
@@ -15,7 +15,7 @@
   gap: 18px;
   margin-bottom: 18px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(215,25,32,.28);
+  border-bottom: 1px solid rgba(7,93,255,.30);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-panel-head h3 {
@@ -23,11 +23,12 @@
   color: #fff;
   font-family: var(--display);
   font-size: 26px;
+  text-shadow: 0 0 20px rgba(7,93,255,.38);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-panel-head p {
   margin: 0;
-  color: rgba(255,255,255,.72);
+  color: rgba(255,255,255,.74);
   font-size: 13px;
 }
 
@@ -41,7 +42,7 @@
 :is(.primetime-page,.bombers-page) .ncs-metric-card {
   padding: 13px 10px;
   border-radius: 10px;
-  border: 1px solid rgba(215,25,32,.26);
+  border: 1px solid rgba(7,93,255,.28);
   background: rgba(255,255,255,.055);
   text-align: center;
 }
@@ -52,13 +53,13 @@
   font-family: var(--display);
   font-size: 20px;
   font-weight: 950;
-  text-shadow: 0 0 18px rgba(215,25,32,.35);
+  text-shadow: 0 0 18px rgba(7,93,255,.56);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-metric-card span {
   display: block;
   margin-top: 6px;
-  color: rgba(255,255,255,.65);
+  color: rgba(216,231,255,.72);
   font-family: var(--display);
   font-size: 8px;
   font-weight: 900;
@@ -74,7 +75,7 @@
 
 :is(.primetime-page,.bombers-page) .ncs-event-column h4 {
   margin: 0 0 12px;
-  color: #fff;
+  color: #BBD6FF;
   font-family: var(--display);
   font-size: 13px;
   letter-spacing: 1.3px;
@@ -95,14 +96,14 @@
   gap: 12px;
   align-items: center;
   padding: 12px;
-  border: 1px solid rgba(215,25,32,.24);
+  border: 1px solid rgba(7,93,255,.26);
   border-radius: 12px;
   background: rgba(255,255,255,.045);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-event-date {
   color: #fff;
-  background: linear-gradient(145deg,#d71920,#650812);
+  background: linear-gradient(145deg,#075DFF,#00164A);
   border-radius: 9px;
   padding: 9px 8px;
   text-align: center;
@@ -111,6 +112,7 @@
   font-weight: 900;
   line-height: 1.2;
   text-transform: uppercase;
+  box-shadow: 0 0 18px rgba(7,93,255,.22);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-event-main h4 {
@@ -124,7 +126,7 @@
 
 :is(.primetime-page,.bombers-page) .ncs-event-main p {
   margin: 0;
-  color: rgba(255,255,255,.64);
+  color: rgba(216,231,255,.66);
   font-size: 12px;
 }
 
@@ -135,12 +137,13 @@
   font-family: var(--display);
   font-size: 20px;
   font-weight: 950;
+  text-shadow: 0 0 18px rgba(7,93,255,.46);
 }
 
 :is(.primetime-page,.bombers-page) .ncs-event-place span {
   display: block;
   margin-top: 4px;
-  color: rgba(255,255,255,.58);
+  color: rgba(216,231,255,.58);
   font-size: 8px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -148,9 +151,9 @@
 
 :is(.primetime-page,.bombers-page) .ncs-empty {
   padding: 18px;
-  border: 1px dashed rgba(215,25,32,.35);
+  border: 1px dashed rgba(7,93,255,.38);
   border-radius: 12px;
-  color: rgba(255,255,255,.72);
+  color: rgba(255,255,255,.74);
   background: rgba(255,255,255,.035);
 }
 
