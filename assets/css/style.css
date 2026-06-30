@@ -108,6 +108,24 @@ nav {
 /* ── PAGE WRAPPER ── */
 .page { max-width: 1120px; margin: 0 auto; padding: 0 24px 80px; }
 
+/* ── TEAM BANNER ── */
+.team-banner-wrap {
+  width: 100%;
+  line-height: 0;
+  background: #050a1a;
+}
+.team-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 420px;
+  object-fit: cover;
+  object-position: center top;
+}
+@media (max-width: 600px) {
+  .team-banner-img { max-height: 200px; }
+}
+
 /* ── HERO ── */
 .hero {
   background: var(--blue);
