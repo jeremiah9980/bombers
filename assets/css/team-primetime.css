@@ -431,6 +431,103 @@ body.bombers-page {
 :is(.primetime-page,.bombers-page) .footer-links a { color: rgba(255,255,255,.62); }
 :is(.primetime-page,.bombers-page) .footer-links a:hover { color: #fff; text-shadow:0 0 14px rgba(7,93,255,.64); }
 
+/* ===== Hero CTA polish =====
+   Reusable hero button system that replaces the old inline styles on the
+   homepage hero. Keeps the dark electric-blue Bombers identity while adding
+   consistent sizing, comfortable mobile tap targets (min 44px height),
+   graceful wrapping, a subtle hover lift/glow, and accessible keyboard
+   focus-visible outlines. */
+:is(.primetime-page,.bombers-page) .hero-tagline {
+  letter-spacing: .3px;
+  font-weight: 500;
+}
+:is(.primetime-page,.bombers-page) .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+}
+:is(.primetime-page,.bombers-page) .hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease,
+              background .16s ease, color .16s ease, border-color .16s ease;
+}
+:is(.primetime-page,.bombers-page) .hero-btn i { font-size: 16px; line-height: 1; }
+:is(.primetime-page,.bombers-page) .hero-btn:hover {
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+:is(.primetime-page,.bombers-page) .hero-btn:focus-visible {
+  outline: 3px solid var(--bombers-blue-light);
+  outline-offset: 3px;
+}
+
+/* Primary / filled */
+:is(.primetime-page,.bombers-page) .hero-btn--primary {
+  background: linear-gradient(135deg, var(--bombers-blue), var(--bombers-blue-2));
+  border-color: rgba(255,255,255,.18);
+  box-shadow: 0 10px 26px rgba(7,93,255,.28);
+}
+:is(.primetime-page,.bombers-page) .hero-btn--primary:hover {
+  background: #fff;
+  color: var(--bombers-blue-dark);
+  box-shadow: 0 14px 32px rgba(7,93,255,.42);
+}
+
+/* Secondary / outline */
+:is(.primetime-page,.bombers-page) .hero-btn--outline {
+  background: rgba(255,255,255,.04);
+  border-color: rgba(255,255,255,.42);
+}
+:is(.primetime-page,.bombers-page) .hero-btn--outline:hover {
+  background: rgba(102,167,255,.16);
+  border-color: var(--bombers-blue-light);
+  box-shadow: 0 12px 28px rgba(7,93,255,.24);
+}
+
+/* Brand-tinted social variants */
+:is(.primetime-page,.bombers-page) .hero-btn--instagram,
+:is(.primetime-page,.bombers-page) .hero-btn--facebook {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(102,167,255,.55);
+}
+:is(.primetime-page,.bombers-page) .hero-btn--instagram:hover {
+  background: linear-gradient(135deg,#f9ce34,#ee2a7b 55%,#6228d7);
+  border-color: transparent;
+  box-shadow: 0 12px 30px rgba(238,42,123,.34);
+}
+:is(.primetime-page,.bombers-page) .hero-btn--facebook:hover {
+  background: #1877F2;
+  border-color: transparent;
+  box-shadow: 0 12px 30px rgba(24,119,242,.38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.primetime-page,.bombers-page) .hero-btn { transition: none; }
+  :is(.primetime-page,.bombers-page) .hero-btn:hover { transform: none; }
+}
+
+@media (max-width: 520px) {
+  :is(.primetime-page,.bombers-page) .hero-actions { gap: 10px; }
+  :is(.primetime-page,.bombers-page) .hero-btn { flex: 1 1 100%; }
+}
+
 @media(max-width:960px){
   :is(.primetime-page,.bombers-page) .player-card-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
